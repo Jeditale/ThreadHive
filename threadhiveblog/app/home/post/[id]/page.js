@@ -1,5 +1,6 @@
 "use client"
 
+import NavBar from "@/app/components/Navbar"
 import { useState, useEffect, use } from "react"
 
 async function getPost(id) {
@@ -38,15 +39,19 @@ export default function Post({params}) {
 
     return (
       <div>
-        <div className="border-2 border-r-amber-100">
-            {postState.title}
-            <div>
-                Post : {postState.description}
-            </div>
-            <div>
-                Comment :  //Map comment from database
-            </div>
+        <NavBar/>
+        <div className="pt-16">
+          <div className="border-2 border-r-amber-100">
+              {postState.title}
+              <div>
+                  Post : {postState.description}
+              </div>
+              <div>
+                  Comment :  //Map comment from database
+              </div>
+          </div>
         </div>
+        
         
       </div>
       

@@ -1,5 +1,6 @@
 "use client"
 
+import NavBar from "@/app/components/Navbar"
 import { create } from "./action"
 import { useActionState } from "react"
 
@@ -12,7 +13,8 @@ export default function CreatePost() {
     const [state, formAction] = useActionState(create,init)
     return (
         <div>
-            <form action={formAction}>
+            <NavBar/>
+            <form action={formAction} className="pt-16">
                 <div>
                     <input type="text" name="title" placeholder="Title" />
                 </div>
