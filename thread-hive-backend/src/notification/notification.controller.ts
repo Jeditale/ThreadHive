@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, InternalServerErrorException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  HttpCode,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { NotificationService } from './notification.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
@@ -12,17 +22,6 @@ export class NotificationController {
   @Post()
   async create(@Body() createNotificationDto: CreateNotificationDto) {
     try {
-      return await this.notificationService.create(createNotificationDto);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during notification creation');
-    }
-  }
-
-  @Post('admin')
-  async createAdminNotification(@Body() createNotificationDto: CreateNotificationDto) {
-    try {
-      // Set userId to the admin's ID
-      createNotificationDto.userId = '678dec8b08947e2503f4b1e0';
       return await this.notificationService.create(createNotificationDto);
     } catch (error) {
       throw new InternalServerErrorException('An error occurred during notification creation');
@@ -52,7 +51,7 @@ export class NotificationController {
     try {
       return await this.notificationService.update(id, updateNotificationDto);
     } catch (error) {
-      throw new InternalServerErrorException('An error occurred during notification deletion');
+      throw new InternalServerErrorException('An error occurred during notification update');
     }
   }
 
@@ -65,24 +64,14 @@ export class NotificationController {
       throw new InternalServerErrorException('An error occurred during notification deletion');
     }
   }
-
-  @Delete('admin/:id')
-  @HttpCode(204)
-  async removeAdminNotification(@Param('id') id: string) {
-    try {
-      await this.notificationService.removeAdminNotification(id);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during admin notification deletion');
-    }
+  @Delete('removeAll/:userId')
+@HttpCode(204)
+async removeAllByUserId(@Param('userId') userId: string): Promise<void> {
+  try {
+    await this.notificationService.removeAllByUserId(userId);
+  } catch (error) {
+    throw new InternalServerErrorException('An error occurred while deleting notifications for the user');
   }
+}
 
-  @Delete('admin/all')
-  @HttpCode(204)
-  async removeAllAdminNotifications() {
-    try {
-      await this.notificationService.removeAllAdminNotifications();
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during all admin aotification deletion');
-    }
-  }
 }
