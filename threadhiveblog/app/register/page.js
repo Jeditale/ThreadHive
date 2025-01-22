@@ -24,9 +24,11 @@ export default function RegisterPage() {
                 </div>
                 <div className="border-2">
                     <input type="text" name="gender" placeholder="Gender" />
+                    {/* Dropdown */}
                 </div>
                 <div className="border-2">
                     <input type="text" name="birthdate" placeholder="Birthdate" />
+                    {/* Datepick */}
                 </div>
                 <div className="border-2">
                     <input type="text" name="email" placeholder="Email" />
