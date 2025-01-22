@@ -13,13 +13,13 @@ export default function LoginPage() {
     return (
         <div>
             <form action={formAction}>
-                <div>
+                <div className="border-2">
                     <input type="text" name="email" placeholder="Email" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="password" name="password" placeholder="Password" />
                 </div>
-                <button>Login</button>
+                <button className="border-2">Login</button>
             </form>
         </div>
     )

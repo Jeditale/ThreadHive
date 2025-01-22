@@ -13,31 +13,31 @@ export default function RegisterPage() {
     return (
         <div>
             <form action={formAction}>
-                <div>
+                <div className="border-2">
                     <input type="text" name="username" placeholder="Username" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="text" name="fname" placeholder="Firstname" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="text" name="lname" placeholder="Lastname" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="text" name="gender" placeholder="Gender" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="text" name="birthdate" placeholder="Birthdate" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="text" name="email" placeholder="Email" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="password" placeholder="Password" />
                 </div>
-                <div>
+                <div className="border-2">
                     <input type="password" name="password" placeholder="Confirm Password" />
                 </div>
-                <button>Register</button>
+                <button className="border-2">Register</button>
             </form>
         </div>
     )
