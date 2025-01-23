@@ -1,59 +1,54 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { CommentLike, CommentLikeDocument } from './schemas/comment-like.schema';
+// src/comment-like/comment-like.service.ts
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateCommentLikeDto } from './dto/create-comment-like.dto';
 import { UpdateCommentLikeDto } from './dto/update-comment-like.dto';
 
 @Injectable()
 export class CommentLikeService {
-  constructor(@InjectModel(CommentLike.name) private commentLikeModel: Model<CommentLikeDocument>) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(createCommentLikeDto: CreateCommentLikeDto): Promise<CommentLike> {
-    try {
-      const commentLike = new this.commentLikeModel(createCommentLikeDto);
-      return await commentLike.save();
-    } catch (error) {
-      throw new InternalServerErrorException('Error creating comment-like');
+  async create(createCommentLikeDto: CreateCommentLikeDto) {
+    const existingLike = await this.prisma.commentLike.findUnique({
+      where: {
+        commentId_userId: {
+          commentId: createCommentLikeDto.commentId,
+          userId: createCommentLikeDto.userId,
+        },
+      },
+    });
+
+    if (existingLike) {
+      return this.update(createCommentLikeDto.commentId, createCommentLikeDto.userId, createCommentLikeDto);
     }
+
+    return this.prisma.commentLike.create({
+      data: createCommentLikeDto,
+    });
   }
 
-  async findAll(): Promise<CommentLike[]> {
-    try {
-      return await this.commentLikeModel.find().exec();
-    } catch (error) {
-      throw new InternalServerErrorException('Error retrieving comment-like likes');
-    }
+  async update(commentId: number, userId: number, updateCommentLikeDto: UpdateCommentLikeDto) {
+    return this.prisma.commentLike.update({
+      where: {
+        commentId_userId: { commentId, userId },
+      },
+      data: updateCommentLikeDto,
+    });
   }
 
-  async findOne(id: string): Promise<CommentLike> {
-    try {
-      const commentLike = await this.commentLikeModel.findById(id).exec();
-      if (!commentLike) throw new NotFoundException('comment-like not found');
-      return commentLike;
-    } catch (error) {
-      throw new InternalServerErrorException('Error fetching comment-like by id');
-    }
+  async findAll() {
+    return this.prisma.commentLike.findMany();
   }
 
-  async update(id: string, updateCommentLikeDto: UpdateCommentLikeDto): Promise<CommentLike> {
-    try {
-      const updatedCommentLike = await this.commentLikeModel
-        .findByIdAndUpdate(id, updateCommentLikeDto, { new: true })
-        .exec();
-      if (!updatedCommentLike) throw new NotFoundException('comment-like not found');
-      return updatedCommentLike;
-    } catch (error) {
-      throw new InternalServerErrorException('Error updating comment-like');
-    }
+  async findOne(id: number) {
+    return this.prisma.commentLike.findUnique({
+      where: { id },
+    });
   }
 
-  async delete(id: string): Promise<void> {
-    try {
-      const result = await this.commentLikeModel.findByIdAndDelete(id).exec();
-      if (!result) throw new NotFoundException('comment-like not found');
-    } catch (error) {
-      throw new InternalServerErrorException('Error deleting comment-like');
-    }
+  async remove(id: number) {
+    return this.prisma.commentLike.delete({
+      where: { id },
+    });
   }
 }

@@ -1,57 +1,29 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, InternalServerErrorException } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+// src/post-like/post-like.controller.ts
+import { Controller, Post, Body, Delete, Param, Get } from '@nestjs/common';
 import { PostLikeService } from './post-like.service';
 import { CreatePostLikeDto } from './dto/create-post-like.dto';
-import { UpdatePostLikeDto } from './dto/update-post-like.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('PostLikes')
+@ApiTags('post-likes')
 @Controller('post-likes')
 export class PostLikeController {
   constructor(private readonly postLikeService: PostLikeService) {}
 
+  // Create or Update a Post Like
   @Post()
-  async create(@Body() createPostLikeDto: CreatePostLikeDto) {
-    try {
-      return await this.postLikeService.create(createPostLikeDto);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during Post-like creation');
-    }
+  createOrUpdate(@Body() createPostLikeDto: CreatePostLikeDto) {
+    return this.postLikeService.createOrUpdate(createPostLikeDto);
+  }
+  
+  // Get likes by postId
+  @Get('by-post/:postId')
+  getLikesByPostId(@Param('postId') postId: number) {
+    return this.postLikeService.getLikesByPostId(postId);
   }
 
-  @Get()
-  async findAll() {
-    try {
-      return await this.postLikeService.findAll();
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred while fetching Post-like');
-    }
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    try {
-      return await this.postLikeService.findOne(id);
-    } catch (error) {
-      throw new InternalServerErrorException(`An error occurred while fetching the Post-like with ID ${id}`);
-    }
-  }
-
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updatePostLikeDto: UpdatePostLikeDto) {
-    try {
-      return await this.postLikeService.update(id, updatePostLikeDto);
-    } catch (error) {
-      throw new InternalServerErrorException(`An error occurred while updating the Post-like with ID ${id}`);
-    }
-  }
-
+  // Delete Post Like by ID
   @Delete(':id')
-  @HttpCode(204)
-  async remove(@Param('id') id: string) {
-    try {
-      await this.postLikeService.remove(id);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during user deletion');
-    }
+  deleteById(@Param('id') id: string) {
+    return this.postLikeService.deleteById(+id);
   }
 }

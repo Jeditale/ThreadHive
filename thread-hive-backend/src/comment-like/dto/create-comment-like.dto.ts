@@ -1,20 +1,21 @@
+// src/comment-like/dto/create-comment-like.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsString } from 'class-validator';
+import { IsBoolean, IsInt } from 'class-validator';
 
 export class CreateCommentLikeDto {
-  @ApiProperty({ description: 'Comment ID associated with the like' })
-  @IsString()
-  readonly commentId: string;
+  @ApiProperty()
+  @IsInt()
+  commentId: number;
 
-  @ApiProperty({ description: 'User ID who liked or disliked the comment' })
-  @IsString()
-  readonly userId: string;
+  @ApiProperty()
+  @IsInt()
+  userId: number;
 
-  @ApiProperty({ description: 'Indicates if it is an upvote', default: false })
+  @ApiProperty()
   @IsBoolean()
-  readonly upVote: boolean;
+  upVote: boolean;
 
-  @ApiProperty({ description: 'Indicates if it is a downvote', default: false })
+  @ApiProperty()
   @IsBoolean()
-  readonly downVote: boolean;
+  downVote: boolean;
 }

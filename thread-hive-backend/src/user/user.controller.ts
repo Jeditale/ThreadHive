@@ -1,71 +1,37 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, NotFoundException, InternalServerErrorException } from '@nestjs/common';
-import { UserService } from './user.service';
+// src/users/users.controller.ts
+
+import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './schemas/user.schema';
+import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // Create a new user
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    try {
-      return await this.userService.create(createUserDto);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during user creation');
-    }
+  createUser(@Body() createUserDto: CreateUserDto) {
+    return this.userService.createUser(createUserDto);
   }
 
-  // Get all users
   @Get()
-  async findAll(): Promise<User[]> {
-    try {
-      return await this.userService.findAll();
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred while fetching users');
-    }
+  getAllUsers() {
+    return this.userService.getAllUsers();
   }
 
-  // Get user by ID
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<User> {
-    try {
-      const user = await this.userService.findById(id);
-      if (!user) {
-        throw new NotFoundException(`User with ID ${id} not found`);
-      }
-      return user;
-    } catch (error) {
-      throw new InternalServerErrorException(`An error occurred while fetching the user with ID ${id}`);
-    }
+  getUserById(@Param('id') id: string) {
+    return this.userService.getUserById(Number(id));
   }
 
-  // Update user by ID
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
-    try {
-      const updatedUser = await this.userService.update(id, updateUserDto);
-      if (!updatedUser) {
-        throw new NotFoundException(`User with ID ${id} not found`);
-      }
-      return updatedUser;
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during user deletion');
-    }
+  updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.updateUser(Number(id), updateUserDto);
   }
 
-  // Delete user by ID
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<{ message: string }> {
-    try {
-      const result = await this.userService.delete(id);
-      if (!result) 
-        throw new NotFoundException(`User with ID ${id} not found`);
-      return { message: 'User deleted successfully' };
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during user deletion');
-    }
+  deleteUser(@Param('id') id: string) {
+    return this.userService.deleteUser(Number(id));
   }
 }

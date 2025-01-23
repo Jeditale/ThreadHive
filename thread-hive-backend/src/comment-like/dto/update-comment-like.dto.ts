@@ -1,21 +1,21 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateCommentLikeDto } from './create-comment-like.dto';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+// src/comment-like/dto/update-comment-like.dto.ts
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsInt } from 'class-validator';
 
-export class UpdateCommentLikeDto extends PartialType(CreateCommentLikeDto) {
-@IsOptional()
-  @IsString()
-  readonly commentId?: string;
+export class UpdateCommentLikeDto {
+  @ApiProperty()
+  @IsInt()
+  commentId: number;
 
-@IsOptional()
-  @IsString()
-  readonly userId?: string;
+  @ApiProperty()
+  @IsInt()
+  userId: number;
 
-@IsOptional()
+  @ApiProperty()
   @IsBoolean()
-  readonly upVote?: boolean;
+  upVote: boolean;
 
-@IsOptional()
+  @ApiProperty()
   @IsBoolean()
-  readonly downVote?: boolean;
+  downVote: boolean;
 }

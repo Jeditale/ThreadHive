@@ -1,17 +1,11 @@
+// src/comment-like/comment-like.module.ts
 import { Module } from '@nestjs/common';
 import { CommentLikeService } from './comment-like.service';
 import { CommentLikeController } from './comment-like.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import {CommentLike, CommentLikeSchema } from './schemas/comment-like.schema';
-
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  imports:[
-    MongooseModule.forFeature([{
-      name:CommentLike.name , schema:CommentLikeSchema
-    }])
-  ],
   controllers: [CommentLikeController],
-  providers: [CommentLikeService],
+  providers: [CommentLikeService, PrismaService],
 })
 export class CommentLikeModule {}

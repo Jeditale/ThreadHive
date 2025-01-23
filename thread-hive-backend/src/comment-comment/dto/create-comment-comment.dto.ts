@@ -1,19 +1,17 @@
 // src/comment-comment/dto/create-comment-comment.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsString } from 'class-validator';
 
 export class CreateCommentCommentDto {
-    
-  @ApiProperty({  description: 'Post ID associated with the comment' })
-  @IsNotEmpty()
-  readonly commentId: string;
+  @ApiProperty()
+  @IsInt()
+  commentId: number;  // Parent commentId (PostComment's id)
 
-  @ApiProperty({ description: 'User ID who made the comment' })
-  @IsNotEmpty()
-  readonly userId: string;
+  @ApiProperty()
+  @IsInt()
+  userId: number;
 
-  @ApiProperty({ example:'What A wonderful Comment',description: 'Content of the comment' })
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  readonly comment: string;
+  comment: string;
 }

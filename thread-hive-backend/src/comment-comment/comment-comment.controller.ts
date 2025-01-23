@@ -1,64 +1,45 @@
-import { Controller,  Get,  Post,  Body,  Param,  Put,  Delete,  InternalServerErrorException 
-} from '@nestjs/common';
+// src/comment-comment/comment-comment.controller.ts
+import { Controller, Post, Body, Put, Param, Get, Delete } from '@nestjs/common';
 import { CommentCommentService } from './comment-comment.service';
 import { CreateCommentCommentDto } from './dto/create-comment-comment.dto';
 import { UpdateCommentCommentDto } from './dto/update-comment-comment.dto';
-import { CommentComment } from './schemas/comment-comment.schema';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('comment-comments')
 @Controller('comment-comments')
 export class CommentCommentController {
   constructor(private readonly commentCommentService: CommentCommentService) {}
 
+  // Create a new CommentComment (reply)
   @Post()
-  async create(@Body() createCommentCommentDto: CreateCommentCommentDto): Promise<CommentComment> {
-    try {
-      return await this.commentCommentService.create(createCommentCommentDto);
-    } catch (error) {
-      console.error('Error in create:', error);
-      throw new InternalServerErrorException('Failed to create CommentComment');
-    }
+  create(@Body() createCommentCommentDto: CreateCommentCommentDto) {
+    return this.commentCommentService.create(createCommentCommentDto);
   }
 
-  @Get()
-  async findAll(): Promise<CommentComment[]> {
-    try {
-      return await this.commentCommentService.findAll();
-    } catch (error) {
-      console.error('Error in findAll:', error);
-      throw new InternalServerErrorException('Failed to retrieve CommentComments');
-    }
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<CommentComment> {
-    try {
-      return await this.commentCommentService.findOne(id);
-    } catch (error) {
-      console.error(`Error in findOne with ID ${id}:`, error);
-      throw new InternalServerErrorException('Failed to retrieve CommentComment');
-    }
-  }
-
+  // Update a CommentComment by id
   @Put(':id')
-  async update(
+  update(
     @Param('id') id: string,
     @Body() updateCommentCommentDto: UpdateCommentCommentDto,
-  ): Promise<CommentComment> {
-    try {
-      return await this.commentCommentService.update(id, updateCommentCommentDto);
-    } catch (error) {
-      console.error(`Error in update with ID ${id}:`, error);
-      throw new InternalServerErrorException('Failed to update CommentComment');
-    }
+  ) {
+    return this.commentCommentService.update(+id, updateCommentCommentDto);
   }
 
+  // Get all CommentComments for a specific comment
+  @Get('comment/:commentId')
+  getAll(@Param('commentId') commentId: string) {
+    return this.commentCommentService.getAll(+commentId);
+  }
+
+  // Get a CommentComment by id
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.commentCommentService.getById(+id);
+  }
+
+  // Delete a CommentComment by id
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<{ message: string }> {
-    try {
-      return await this.commentCommentService.remove(id);
-    } catch (error) {
-      console.error(`Error in remove with ID ${id}:`, error);
-      throw new InternalServerErrorException('Failed to delete CommentComment');
-    }
+  delete(@Param('id') id: string) {
+    return this.commentCommentService.delete(+id);
   }
 }

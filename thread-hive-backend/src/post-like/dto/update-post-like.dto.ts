@@ -1,22 +1,15 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreatePostLikeDto } from './create-post-like.dto';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+// src/post-like/dto/update-post-like.dto.ts
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsOptional } from 'class-validator';
 
-export class UpdatePostLikeDto extends PartialType(CreatePostLikeDto) {
-    
-    @IsOptional()
-    @IsString()
-    readonly postId?: string;
+export class UpdatePostLikeDto {
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  upVote?: boolean;
 
-    @IsOptional()
-    @IsString()
-    readonly userId?: string;
-
-    @IsOptional()
-    @IsBoolean()
-    readonly upVote?: boolean;
-
-    @IsOptional()
-    @IsBoolean()
-    readonly downVote?: boolean;
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  downVote?: boolean;
 }

@@ -1,59 +1,63 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { PostLike, PostLikeDocument } from './schemas/post-like.schema';
+// src/post-like/post-like.service.ts
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreatePostLikeDto } from './dto/create-post-like.dto';
 import { UpdatePostLikeDto } from './dto/update-post-like.dto';
+import { PostLike } from '@prisma/client';
 
 @Injectable()
 export class PostLikeService {
-  constructor(@InjectModel(PostLike.name) private postLikeModel: Model<PostLikeDocument>) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(createPostLikeDto: CreatePostLikeDto): Promise<PostLike> {
-    try {
-      const postLike = new this.postLikeModel(createPostLikeDto);
-      return await postLike.save();
-    } catch (error) {
-      throw new InternalServerErrorException('Error creating post like');
+  // Create or Update Post Like
+  async createOrUpdate(createPostLikeDto: CreatePostLikeDto) {
+    // Check if the like already exists based on postId and userId
+    const existingLike = await this.prisma.postLike.findUnique({
+      where: {
+        postId_userId: {
+          postId: createPostLikeDto.postId,
+          userId: createPostLikeDto.userId,
+        },
+      },
+    });
+
+    if (existingLike) {
+      // If it exists, update the like
+      return this.prisma.postLike.update({
+        where: {
+          id: existingLike.id,
+        },
+        data: createPostLikeDto,
+      });
     }
+
+    // Otherwise, create a new like
+    return this.prisma.postLike.create({
+      data: createPostLikeDto,
+    });
   }
 
-  async findAll(): Promise<PostLike[]> {
-    try {
-      return await this.postLikeModel.find().exec();
-    } catch (error) {
-      throw new InternalServerErrorException('Error retrieving post likes');
-    }
+  // Get likes by postId
+  async getLikesByPostId(postId: number) {
+    return this.prisma.postLike.findMany({
+      where: {
+        postId: postId,
+      },
+    });
   }
 
-  async findOne(id: string): Promise<PostLike> {
-    try {
-      const postLike = await this.postLikeModel.findById(id).exec();
-      if (!postLike) throw new NotFoundException('PostLike not found');
-      return postLike;
-    } catch (error) {
-      throw error;
-    }
-  }
+  // Delete Post Like by ID
+  async deleteById(id: number) {
+    const postLike = await this.prisma.postLike.findUnique({
+      where: { id },
+    });
 
-  async update(id: string, updatePostLikeDto: UpdatePostLikeDto): Promise<PostLike> {
-    try {
-      const updatedPostLike = await this.postLikeModel
-        .findByIdAndUpdate(id, updatePostLikeDto, { new: true })
-        .exec();
-      if (!updatedPostLike) throw new NotFoundException('PostLike not found');
-      return updatedPostLike;
-    } catch (error) {
-      throw error;
+    if (!postLike) {
+      throw new NotFoundException(`PostLike with id ${id} not found`);
     }
-  }
 
-  async remove(id: string): Promise<void> {
-    try {
-      const result = await this.postLikeModel.findByIdAndDelete(id).exec();
-      if (!result) throw new NotFoundException('PostLike not found');
-    } catch (error) {
-      throw error;
-    }
+    return this.prisma.postLike.delete({
+      where: { id },
+    });
   }
 }

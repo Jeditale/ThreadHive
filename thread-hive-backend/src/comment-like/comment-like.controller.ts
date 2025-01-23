@@ -1,57 +1,38 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, InternalServerErrorException } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { CommentLikeService } from './comment-like.service';
 import { CreateCommentLikeDto } from './dto/create-comment-like.dto';
 import { UpdateCommentLikeDto } from './dto/update-comment-like.dto';
 
-@ApiTags('CommentLikes')
-@Controller('comment-likes')
+@Controller('comment-like')
 export class CommentLikeController {
   constructor(private readonly commentLikeService: CommentLikeService) {}
 
   @Post()
-  async create(@Body() createCommentLikeDto: CreateCommentLikeDto) {
-    try {
-      return await this.commentLikeService.create(createCommentLikeDto);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during comment-like creation');
-    }
+  create(@Body() createCommentLikeDto: CreateCommentLikeDto) {
+    return this.commentLikeService.create(createCommentLikeDto);
   }
 
   @Get()
-  async findAll() {
-    try {
-      return await this.commentLikeService.findAll();
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred while fetching comment-likes');
-    }
+  findAll() {
+    return this.commentLikeService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    try {
-      return await this.commentLikeService.findOne(id);
-    } catch (error) {
-      throw new InternalServerErrorException(`An error occurred while fetching the comment-like with ID ${id}`);
-    }
+  findOne(@Param('id') id: string) {
+    return this.commentLikeService.findOne(+id);
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updateCommentLikeDto: UpdateCommentLikeDto) {
-    try {
-      return await this.commentLikeService.update(id, updateCommentLikeDto);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during comment-like deletion');
-    }
+  @Put(':commentId/:userId')
+  async update(
+    @Param('commentId') commentId: number, 
+    @Param('userId') userId: number,
+    @Body() updateCommentLikeDto: UpdateCommentLikeDto,
+  ) {
+    return this.commentLikeService.update(commentId, userId, updateCommentLikeDto);
   }
 
   @Delete(':id')
-  @HttpCode(204)
-  async delete(@Param('id') id: string) {
-    try {
-      await this.commentLikeService.delete(id);
-    } catch (error) {
-      throw new InternalServerErrorException('An error occurred during comment-like deletion');
-    }
+  remove(@Param('id') id: string) {
+    return this.commentLikeService.remove(+id);
   }
 }

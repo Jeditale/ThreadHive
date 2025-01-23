@@ -1,18 +1,11 @@
+// src/post-like/post-like.module.ts
 import { Module } from '@nestjs/common';
-import { PostLikeService } from './post-like.service';
 import { PostLikeController } from './post-like.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { PostLike, PostLikeSchema } from './schemas/post-like.schema';
-import { PostModule } from 'src/post/post.module';
-import { UserModule } from 'src/user/user.module';
+import { PostLikeService } from './post-like.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
-  imports:[
-  MongooseModule.forFeature([{name: PostLike.name,schema:PostLikeSchema}]),
-        PostModule,  
-        UserModule, 
-  ],
   controllers: [PostLikeController],
-  providers: [PostLikeService],
+  providers: [PostLikeService, PrismaService],
 })
 export class PostLikeModule {}

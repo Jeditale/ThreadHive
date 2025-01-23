@@ -1,64 +1,37 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { User, UserDocument } from './schemas/user.schema';
+// src/users/users.service.ts
+
+import { Injectable } from '@nestjs/common';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    try {
-      const createdUser = new this.userModel(createUserDto);
-      return createdUser.save();
-    } catch (error) {
-      throw new InternalServerErrorException('Error creating user');
-    }
+  async createUser(createUserDto: CreateUserDto) {
+    return this.prisma.user.create({
+      data: createUserDto,
+    });
   }
 
-  async findAll(): Promise<User[]> {
-    try {
-      return this.userModel.find().exec();
-    } catch (error) {
-      throw new InternalServerErrorException('Error fetching users');
-    }
+  async getAllUsers() {
+    return this.prisma.user.findMany();
   }
 
-  async findById(id: string): Promise<User> {
-    try {
-      const user = await this.userModel.findById(id).exec();
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
-      return user;
-    } catch (error) {
-      throw new InternalServerErrorException('Error fetching user by id');
-    }
+  async getUserById(id: number) {
+    return this.prisma.user.findUnique({ where: { id } });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    try {
-      const updatedUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
-      if (!updatedUser) {
-        throw new NotFoundException('User not found');
-      }
-      return updatedUser;
-    } catch (error) {
-      throw new InternalServerErrorException('Error updating user');
-    }
+  async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
   }
 
-  async delete(id: string): Promise<{ message: string }> {
-    try {
-      const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
-      if (!deletedUser) {
-        throw new NotFoundException('User not found');
-      }
-      return { message: 'User deleted successfully' };
-    } catch (error) {
-      throw new InternalServerErrorException('Error deleting user');
-    }
+  async deleteUser(id: number) {
+    return this.prisma.user.delete({ where: { id } });
   }
 }
