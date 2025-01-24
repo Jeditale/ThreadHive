@@ -4,7 +4,7 @@ import NavBar from "@/app/components/Navbar"
 import SideBar from "@/app/components/Sidebar"
 import Link from "next/link"
 import { comment } from "postcss"
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 
 async function getPost(id) {
     const response = await fetch(`https://678497a11ec630ca33a4d90c.mockapi.io/blog/${id}`)
@@ -15,7 +15,7 @@ async function getPost(id) {
 }
 
 export default function Post({ params }) {
-    const { id } = params;
+    const { id } = use(params);
 
     const [post, setPost] = useState({
         title: '',
@@ -53,7 +53,7 @@ export default function Post({ params }) {
                 <div className="flex items-center space-x-3 mb-3">
                   <img src={post.userProfile} alt="Profile" className="w-12 h-12 rounded-full border" />
                   <div>
-                    <p className="font-semibold">{post.userName}</p>
+                    <p className="font-semibold">{post.username}</p>
                     <p className="text-gray-500 text-sm">
                       {new Date(post.createdAt).toLocaleDateString("th-TH", {
                         day: "2-digit",
