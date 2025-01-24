@@ -9,9 +9,10 @@ import { PostCommentModule } from './post-comment/post-comment.module';
 import { PostLikeModule } from './post-like/post-like.module';
 import { PostModule } from './post/post.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, PostModule, PostCommentModule, CommentCommentModule, PostLikeModule, CommentLikeModule, NotificationModule],
+  imports: [PrismaModule, UserModule, PostModule, PostCommentModule, CommentCommentModule, PostLikeModule, CommentLikeModule, NotificationModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

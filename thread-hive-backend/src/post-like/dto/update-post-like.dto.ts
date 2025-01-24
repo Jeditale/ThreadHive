@@ -8,8 +8,4 @@ export class UpdatePostLikeDto {
   @IsBoolean()
   upVote?: boolean;
 
-  @ApiProperty()
-  @IsOptional()
-  @IsBoolean()
-  downVote?: boolean;
 }

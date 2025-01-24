@@ -74,7 +74,6 @@ model PostLike {
   postId    Int
   userId    Int
   upVote    Boolean
-  downVote  Boolean
   createdAt DateTime @default(now())
   
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -88,7 +87,6 @@ model CommentLike {
   commentId Int
   userId    Int
   upVote    Boolean
-  downVote  Boolean
   createdAt DateTime @default(now())
   comment   PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)

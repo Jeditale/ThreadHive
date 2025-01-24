@@ -8,9 +8,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Median')
-    .setDescription('The Median API description')
-    .setVersion('0.1')
+    .setTitle('ThreadHive')
+    .setDescription('The ThreadHive API')
+    .setVersion('0.2')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',  // Optional, just for clarity
+      },
+      'jwt',  // This match the name of strategy
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

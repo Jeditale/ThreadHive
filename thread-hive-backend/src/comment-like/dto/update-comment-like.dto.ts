@@ -15,7 +15,4 @@ export class UpdateCommentLikeDto {
   @IsBoolean()
   upVote: boolean;
 
-  @ApiProperty()
-  @IsBoolean()
-  downVote: boolean;
 }

@@ -13,9 +13,9 @@ export class NotificationController {
   }
 
   // Get notifications by userId
-  @Get('by-user/:userId')
+  @Get('all/:userId')
   getNotificationsByUserId(@Param('userId') userId: number) {
-    return this.notificationService.getNotificationsByUserId(userId);
+    return this.notificationService.getNotificationsByUserId(+userId);
   }
 
   @Get()
