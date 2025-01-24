@@ -24,18 +24,25 @@ export default function User() {
                             </div>
                             <div className="ml-5">
                                 <p className="text-xl font-semibold mb-5">name_ee</p>
-                                <button className="bg-[#3A3000] text-white px-4 py-2 rounded-lg mr-2">แก้ไขโปรไฟล์</button>
-                                <button className="bg-[#960000] text-white px-4 py-2 rounded-lg">ออกจากระบบ</button>
-                                <button className="bg-white px-4 py-2 rounded-lg w-auto ">
-                                    <img src="/assets/newPost.png" alt="newPost" className="w-5 h-5 rounded-full" />เขียนโพสต์
-                                </button>
+                                <div className="flex space-x-3">
+                                    <button className="bg-[#3A3000] text-white hover:bg-[#2A1C08] shadow-lg px-4 py-2 rounded-lg">
+                                        แก้ไขโปรไฟล์
+                                    </button>
+                                    <button className="bg-[#960000] text-white hover:bg-[#690000] shadow-lg px-4 py-2 rounded-lg">
+                                        ออกจากระบบ
+                                    </button>
+                                    <button className="flex items-center bg-white text-black hover:bg-gray-200 shadow-lg px-4 py-2 rounded-lg">
+                                        <img src="/assets/newPost.png" alt="Home" className="w-6 h-6 mr-2" />
+                                        เขียนโพสต์
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    
+
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
   );
 }
