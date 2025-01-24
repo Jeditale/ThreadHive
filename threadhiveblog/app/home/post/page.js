@@ -19,7 +19,7 @@ export default function CreatePost() {
                     
                     {/* ส่วนหัวของโปรไฟล์ */}
                     <div className="flex items-center space-x-3 mb-4">
-                        <img src="/profile.png" alt="Profile" className="w-10 h-10 rounded-full" />
+                        <img src="/assets/profile.png" alt="Profile" className="w-10 h-10 rounded-full" />
                     </div>
 
                     {/* ช่องกรอกข้อความ */}
@@ -29,13 +29,13 @@ export default function CreatePost() {
 
                     {/* ปุ่มเพิ่มรูปภาพ */}
                     <div className="flex items-center space-x-2 text-[#D89614] cursor-pointer hover:text-[#B87C0D]">
-                        <img src="/assets/addPhoto.png" alt="Upload" className="w-6 h-6" />
+                        <img src="/assets/addPhoto.png" alt="Upload" className="w-10 h-10" />
                         <span className="font-medium">เพิ่มรูปภาพ</span>
                     </div>
 
                     {/* ปุ่มโพสต์ */}
                     <div className="mt-6 flex justify-center">
-                        <button className="bg-[#3C2A10] text-white text-lg p-10 pt-2 pb-2 rounded-2xl shadow-md hover:bg-[#2A1C08]">
+                        <button className="bg-[#3C2A10] text-white text-lg p-20 pt-2 pb-2 rounded-2xl shadow-md hover:bg-[#2A1C08]">
                             โพสต์
                         </button>
                     </div>

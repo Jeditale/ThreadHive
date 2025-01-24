@@ -27,20 +27,26 @@ export default async function Posts(){
                     <div className="col-start-3 col-span-3 w-auto">
                         <div>
                             {posts.map((post, index) => (
-                                <div key={index} className="p-5 m-3 border-2 rounded-lg bg-[#FFF8DC] shadow-lg w-auto">
+                                <div key={index} className="p-5 m-3 rounded-lg bg-[#FFF8DC] shadow-lg w-auto">
 
                                     {/*  ส่วนโปรไฟล์, ชื่อ และวันที่โพสต์ */}
                                     <div className="flex items-center space-x-3 mb-3">
                                         <img src={post.userProfile} alt="Profile" className="w-12 h-12 rounded-full border" />
                                         <div>
-                                            <p className="font-semibold">{post.userName}</p>
-                                            <p className="text-gray-500 text-sm">{post.createdAt}</p>
+                                            <p className="font-semibold">{post.username}</p>
+                                            <p className="text-gray-500 text-sm">
+                                                {new Date(post.createdAt).toLocaleDateString("th-TH", {
+                                                    day: "2-digit",
+                                                    month: "long",
+                                                    year: "numeric",
+                                                })}
+                                            </p>
                                         </div>
                                     </div>
 
                                     {/* ส่วนข้อความ */}
                                     <Link href={`/home/post/${post.id}`}>
-                                        <div className="mb-3">
+                                        <div className="mb-5">
                                             <h3 className="font-bold text-lg">{post.title}</h3>
                                             <p className="text-gray-700">{post.description}</p>
                                         </div>
