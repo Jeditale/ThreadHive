@@ -1,4 +1,5 @@
 import NavBar from "../components/Navbar"
+import SideBae from "../components/Sidebar"
 import Link from "next/link"
 
 async function getPosts() {
@@ -17,42 +18,65 @@ export default async function Posts(){
     const posts = await getPosts()
 
     return (
-        <div>
+        <div className="bg-[#FAF3B8]">
            <NavBar/>
+           <SideBae/>
             <div>
-                <div className="grid grid-cols-6 pt-16" >
-                    <div className="col-start-1 bg-orange-700 fixed h-full">
-                        <div className="grid grid-rows-3 p-4">
-                            <div>
-                                {/* ใส่ไอคอนให้อยู่บรรทัดเดียวกัน */}
-                                <Link href={`/home`} className="float-start p-3 m-3 hover:bg-white border-0 rounded-md w-56 ">Home</Link>
-                            </div>
-                            <div>
-                                {/* ใส่ไอคอนให้อยู่บรรทัดเดียวกัน */}
-                                <Link href={`/user`} className="float-start p-3 m-3 hover:bg-white border-0 rounded-md w-56 ">Profile</Link>
-                            </div>
-                            <div>
-                                {/* ใส่ไอคอนให้อยู่บรรทัดเดียวกัน */}
-                                <Link href={`/home/post`} className="float-start p-3 m-3 hover:bg-white border-0 rounded-md w-56 ">New post</Link>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className="col-start-3 col-span-3"> 
+                <div className="grid grid-cols-6 mt-5" >
+                    {/* โพสต์แต่ละโพสต์ */}
+                    <div className="col-start-3 col-span-3 w-auto">
                         <div>
                             {posts.map((post, index) => (
-                                <div key={index} className="p-5 m-3 border-2 rounded-lg"  >
+                                <div key={index} className="p-5 m-3 border-2 rounded-lg bg-[#FFF8DC] shadow-lg w-auto">
+
+                                    {/*  ส่วนโปรไฟล์, ชื่อ และวันที่โพสต์ */}
+                                    <div className="flex items-center space-x-3 mb-3">
+                                        <img src={post.userProfile} alt="Profile" className="w-12 h-12 rounded-full border" />
+                                        <div>
+                                            <p className="font-semibold">{post.userName}</p>
+                                            <p className="text-gray-500 text-sm">{post.createdAt}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* ส่วนข้อความ */}
                                     <Link href={`/home/post/${post.id}`}>
-                                        <div>{post.title}</div>
-                                        <div>{post.description}</div>
-                                        <div>{post.tags}</div>
+                                        <div className="mb-3">
+                                            <h3 className="font-bold text-lg">{post.title}</h3>
+                                            <p className="text-gray-700">{post.description}</p>
+                                        </div>
                                     </Link>
+
+                                    {/* ส่วนรูปภาพ (แสดงเมื่อมีรูป) */}
+                                    {post.image && (
+                                        <div className="mt-2">
+                                            <img src={post.image} alt="Post Image" className="w-full rounded-lg border" />
+                                        </div>
+                                    )}
+
+                                    {/* ปุ่ม Like, Comment, Share */}
+                                    <div className="flex items-center space-x-5 mt-4 text-gray-600">
+                                        <button className="flex items-center space-x-1 bg-white hover:bg-[#EAC67A] p-2 rounded-2xl shadow-lg">
+                                            <span className="text-xl">
+                                                <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-2" />
+                                            </span> <span>{post.likes ?? 0}</span>ถูกใจ
+                                        </button>
+                                        <button className="flex items-center space-x-1 bg-white hover:bg-[#EAC67A] p-2 rounded-2xl shadow-lg">
+                                            <span className="text-xl">
+                                                <img src="/assets/comment.png" alt="Home" className="w-6 h-6 mr-2" />
+                                            </span> <span>{post.comments ?? 0}</span>ความคิดเห็น
+                                        </button>
+                                        <button className="flex items-center space-x-1 bg-white hover:bg-[#EAC67A] p-2 rounded-2xl shadow-lg">
+                                            <span className="text-xl">
+                                            <img src="/assets/share.png" alt="Home" className="w-6 h-6 mr-2" />    
+                                            </span> <span>{post.shares ?? 0}</span>แชร์
+                                        </button>
+                                    </div>
+
                                 </div>
-                            )
-                            )}
+                            ))}
                         </div>
                     </div>
+
                 </div>
             </div>
            
