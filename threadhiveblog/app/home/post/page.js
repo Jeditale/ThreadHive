@@ -1,7 +1,7 @@
 "use client";
 
 import NavBar from "@/app/components/Navbar";
-import SideBae from "@/app/components/Sidebar";
+import SideBar from "@/app/components/Sidebar";
 import { create } from "./action";
 import { useActionState } from "react";
 
@@ -13,7 +13,7 @@ export default function CreatePost() {
     return (
         <div className="bg-[#FAF3B8] min-h-screen">
             <NavBar />
-            <SideBae />
+            <SideBar />
             <div className="flex flex-grow justify-center items-center mt-10">
                 <form action={formAction} className="bg-[#FEF7D8] p-8 rounded-2xl shadow-lg w-[40%]">
                     

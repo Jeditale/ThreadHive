@@ -1,5 +1,5 @@
 import NavBar from "../components/Navbar"
-import SideBae from "../components/Sidebar"
+import SideBar from "../components/Sidebar"
 import Link from "next/link"
 
 async function getPosts() {
@@ -20,7 +20,7 @@ export default async function Posts(){
     return (
         <div className="bg-[#FAF3B8]">
            <NavBar/>
-           <SideBae/>
+           <SideBar/>
             <div>
                 <div className="grid grid-cols-6 mt-5" >
                     {/* โพสต์แต่ละโพสต์ */}
