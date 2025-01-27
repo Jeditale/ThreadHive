@@ -1,50 +1,43 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql" // or mysql depending on your database
-  url      = env("DATABASE_URL") // Ensure to set this in your .env file
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id             Int       @id @default(autoincrement())
-  usrname     String
-  fname          String
-  lname          String
-  profilePicture String?
-  email          String    @unique
-  password       String
-  bdate          DateTime
-  createdAt      DateTime  @default(now())
-  sex            String
-  isAdmin        Boolean   @default(false)
-  
-  posts          Post[]
-  postComments   PostComment[]
+  id              Int              @id @default(autoincrement())
+  fname           String
+  lname           String
+  profilePicture  String?
+  email           String           @unique
+  password        String
+  bdate           DateTime
+  createdAt       DateTime         @default(now())
+  sex             String
+  isAdmin         Boolean          @default(false)
+  usrname         String
   commentComments CommentComment[]
-  postLikes      PostLike[]
-  commentLikes   CommentLike[]
-  notifications  Notification[]
+  commentLikes    CommentLike[]
+  notifications   Notification[]
+  posts           Post[]
+  postComments    PostComment[]
+  postLikes       PostLike[]
 }
 
 model Post {
-  id          Int           @id @default(autoincrement())
-  userId      Int
-  title       String
-  tags        String[]
-  details     String
-  image       String?
-  createdAt   DateTime       @default(now())
-  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments    PostComment[]
-  likes       PostLike[]
+  id        Int           @id @default(autoincrement())
+  userId    Int
+  title     String
+  tags      String[]
+  details   String
+  image     String?
+  createdAt DateTime      @default(now())
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments  PostComment[]
+  likes     PostLike[]
 }
 
 model PostComment {
@@ -52,21 +45,21 @@ model PostComment {
   postId    Int
   userId    Int
   comment   String
-  createdAt DateTime          @default(now())
-  post      Post              @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
   replies   CommentComment[]
   likes     CommentLike[]
+  post      Post             @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model CommentComment {
-  id        Int           @id @default(autoincrement())
-  commentId Int
-  userId    Int
-  comment   String
-  createdAt DateTime       @default(now())
+  id            Int         @id @default(autoincrement())
+  commentId     Int
+  userId        Int
+  comment       String
+  createdAt     DateTime    @default(now())
   commentParent PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PostLike {
@@ -75,32 +68,29 @@ model PostLike {
   userId    Int
   upVote    Boolean
   createdAt DateTime @default(now())
-  
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([postId, userId])  // Ensure that postId and userId are unique together
+  @@unique([postId, userId])
 }
 
 model CommentLike {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   commentId Int
   userId    Int
   upVote    Boolean
-  createdAt DateTime @default(now())
+  createdAt DateTime    @default(now())
   comment   PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([commentId, userId])  // Ensure composite uniqueness for commentId and userId
+  @@unique([commentId, userId])
 }
 
-
 model Notification {
-  id        Int        @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   userId    Int
   type      String
   message   String
-  createdAt DateTime   @default(now())
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
