@@ -14,7 +14,7 @@ export default function RegisterPage() {
         <div className="flex min-h-screen items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/assets/bg.png')" }}>
             <form action={formAction} className="bg-white bg-opacity-40 p-6 rounded-2xl shadow-lg w-1/3 h-1/2">
 
-            <h2 className="text-white text-3xl text-center mb-10 mt-5">สมัครบัญชีผู้ใช้งาน</h2>
+                <h2 className="text-white text-3xl text-center mb-10 mt-5">สมัครบัญชีผู้ใช้งาน</h2>
 
                 <div>
                     <input type="text" name="username" placeholder="ชื่อผู้ใช้งาน" 
