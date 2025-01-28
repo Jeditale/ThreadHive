@@ -3,7 +3,7 @@ import SideBar from "../components/Sidebar"
 import Link from "next/link"
 
 async function getPosts() {
-    const response = await fetch('https://678497a11ec630ca33a4d90c.mockapi.io/blog')
+    const response = await fetch('https://threadhive.onrender.com/posts')
     if(!response.ok){
       throw new Error('cannot fetch')
   
@@ -48,7 +48,7 @@ export default async function Posts(){
                                     <Link href={`/home/post/${post.id}`}>
                                         <div className="mb-5">
                                             <h3 className="font-bold text-lg">{post.title}</h3>
-                                            <p className="text-gray-700">{post.description}</p>
+                                            <p className="text-gray-700">{post.details}</p>
                                         </div>
                                     </Link>
 
