@@ -3,6 +3,9 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    defaults:
+     run:
+      working-directory: ./threadhiveblog
     strategy:
       fail-fast: false
       matrix:
@@ -11,12 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Get directory
-        run: ls
-
-      - name: Navigate to threadhiveblog directory
-        run: cd threadhiveblog
-
-      - name: Get directory again to check dir
         run: ls
 
       # Install dependencies in the threadhiveblog directory
