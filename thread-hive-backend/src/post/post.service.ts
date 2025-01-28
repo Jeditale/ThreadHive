@@ -39,6 +39,17 @@ export class PostService {
     }
   }
 
+    // Get all posts by userId
+    async findAllByUserId(userId: number) {
+      try {
+        return await this.prisma.post.findMany({
+          where: { userId },  // Assuming the post has a userId field
+        });
+      } catch (error) {
+        throw new InternalServerErrorException('Failed to fetch posts by user', error);
+      }
+    }
+
   // Get all posts
   async findAll() {
     try {

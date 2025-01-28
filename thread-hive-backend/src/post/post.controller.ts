@@ -29,6 +29,15 @@ export class PostController {
   findAll() {
     return this.postService.findAll();
   }
+  
+
+
+    @Get('user/:userId')
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'))
+    findAllByUserId(@Param('userId') userId: string) {
+      return this.postService.findAllByUserId(+userId);
+    }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
