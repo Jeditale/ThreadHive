@@ -16,6 +16,9 @@ jobs:
       - name: Navigate to threadhiveblog directory
         run: cd threadhiveblog
 
+      - name: Get directory again to check dir
+        run: ls
+
       # Install dependencies in the threadhiveblog directory
       - name: Install Dependencies
         run: npm install
