@@ -24,7 +24,9 @@ jobs:
       # Run Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        
         with:
+          working-directory: threadhiveblog
           start: npm start
           wait-on: 'http://localhost:3000'  # Wait for your server to be ready
           record: true
