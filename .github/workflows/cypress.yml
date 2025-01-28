@@ -11,6 +11,8 @@ jobs:
       matrix:
         containers: [1, 2] # Uses 2 parallel instances
     steps:
+      - name: Debug Directory Structure
+        run: ls -R
       - name: Navigate to threadhiveblog directory
         run: cd threadhiveblog
       - name: Checkout
