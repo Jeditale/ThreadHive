@@ -5,7 +5,7 @@ export async function middleware(req) {
     const cookieStore = cookies();
     const token = cookieStore.get("token");
 
-    const protectedRoutes = ["/home"];
+    const protectedRoutes = ["/home/post/[id]", "/home/post"];
 
     if (protectedRoutes.includes(req.nextUrl.pathname) && !token) {
         return NextResponse.redirect(new URL("/login", req.url));
@@ -16,5 +16,5 @@ export async function middleware(req) {
 
 // Apply middleware to specific routes
 export const config = {
-    matcher: ["/home"],
+    matcher: ["/home/post/[id]", "/home/post"],
 };
