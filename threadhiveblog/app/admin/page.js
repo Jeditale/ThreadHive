@@ -61,23 +61,23 @@ export default async function AdminDashboard() {
                         <h2 className="text-xl font-semibold mb-4">รายชื่อผู้ใช้</h2>
                         <table className="w-full border-collapse border">
                             <thead>
-                                <tr className="bg-[#FFF8DC]">
-                                    <th className="border border-gray-300 p-2">โปรไฟล์</th>
-                                    <th className="border border-gray-300 p-2">ชื่อ</th>
-                                    <th className="border border-gray-300 p-2">โพสต์ทั้งหมด</th>
-                                    <th className="border border-gray-300 p-2">ตัวเลือก</th>
+                                <tr className="">
+                                    <th className="p-2">โปรไฟล์</th>
+                                    <th className="p-2">ชื่อ</th>
+                                    <th className="p-2">โพสต์ทั้งหมด</th>
+                                    <th className="p-2">ตัวเลือก</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.map((user) => (
                                     <tr key={user.id} className="text-center">
                                         <td className="border border-gray-300 p-2">
-                                <img src={user.avatar} alt="avatar" className="w-10 h-10 rounded-full mx-auto" />
+                                            <img src={user.userProfile} alt="avatar" className="w-10 h-10 rounded-full mx-auto" />
                                         </td>
-                                        <td className="border border-gray-300 p-2">{user.name}</td>
-                                        <td className="border border-gray-300 p-2">{user.totalPosts}</td>
-                                        <td className="border border-gray-300 p-2">
-                                            <button className="bg-[#3A3000] text-white px-4 py-1 rounded-lg hover:bg-[#2A1C08]">เลือก</button>
+                                        <td className=" p-2">{user.name}</td>
+                                        <td className=" p-2">{user.totalPosts}</td>
+                                        <td className=" p-2">
+                                            <button className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg px-4 py-1 rounded-lg">เลือก</button>
                                         </td>
                                     </tr>
                                 ))}

@@ -1,26 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import NavBar from "@/app/components/Navbar";
 import SideBar from "@/app/components/Sidebar";
+import Link from 'next/link';
+import Swal from "sweetalert2";
 
 export default function EditForm() {
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
-    const router = useRouter()
-    const [gender, setGender] = useState("");
-
-    const handleSubmit = async (event) => {
-        event.preventDefault()
-        
-        if (!name || !email || !phone) {
-            alert('กรุณากรอกข้อมูลให้ครบ')
-            return
-        }
-        router.push('/profile')
-    }
 
     return (
         <div className="bg-[#FAF3B8] min-h-screen">
@@ -106,8 +91,22 @@ export default function EditForm() {
                         </div>
 
                         <div className="flex space-x-3 items-center justify-center">
-                            <button className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">บันทึก</button>
-                            <button className="bg-[#960000] hover:bg-[#690000] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">ยกเลิก</button>
+                            <Link href="/user" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2"
+                            onClick={() => {
+                                Swal.fire({
+                                    title: "บันทึกข้อมูลสำเร็จ!",
+                                    text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
+                                    icon: "success",
+                                    confirmButtonColor: "#3085d6",
+                                    confirmButtonText: "ตกลง",
+                                    customClass: {
+                                        popup: 'rounded-xl shadow-xl', 
+                                        confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg'
+                                    }
+                                });
+                            }}
+                            >บันทึก</Link>
+                            <Link href="/user" className="bg-[#960000] hover:bg-[#690000] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">ยกเลิก</Link>
                         </div>
                     </div>
                 </div>

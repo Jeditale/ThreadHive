@@ -4,6 +4,7 @@ import NavBar from "../components/Navbar";
 import SideBar from "../components/Sidebar";
 import { useState, useEffect, use } from "react"
 import Link from 'next/link';
+import Swal from "sweetalert2";
 
 async function getPost(id) {
     const response = await fetch(`https://678497a11ec630ca33a4d90c.mockapi.io/blog/${id}`);
@@ -70,13 +71,34 @@ export default function User() {
                             </div>
                             <p className="text-xl font-semibold mb-5">{post.username}</p>
                             <div className="flex space-x-3">
-                                <button className="bg-[#3A3000] text-white hover:bg-[#2A1C08] shadow-lg px-4 py-2 rounded-lg">แก้ไขโปรไฟล์</button>
-                                <button className="bg-[#960000] text-white hover:bg-[#690000] shadow-lg px-4 py-2 rounded-lg">ออกจากระบบ</button>
+                                <Link href="/user/editProfile" className="bg-[#3A3000] text-white hover:bg-[#2A1C08] shadow-lg px-4 py-2 rounded-lg">แก้ไขโปรไฟล์</Link>
+                                <button className="bg-[#960000] text-white hover:bg-[#690000] shadow-lg px-4 py-2 rounded-lg"
+                                onClick={() => {
+                                    Swal.fire({
+                                        title: "คุณต้องการออกจากระบบใช่หรือไม่?",
+                                        icon: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonColor: "#d33",
+                                        cancelButtonColor: "#3085d6",
+                                        confirmButtonText: "ใช่",
+                                        cancelButtonText: "ไม่ใช่",
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            Swal.fire({
+                                                title: "ออกจากระบบสำเร็จ!",
+                                                text: "คุณได้ออกจากระบบแล้ว",
+                                                icon: "success",
+                                                confirmButtonColor: "#3085d6",
+                                            });
+                                            // เพิ่มโค้ดสำหรับออกจากระบบที่นี่
+                                        }
+                                    });
+                                }}>ออกจากระบบ</button>
                             </div>
-                            <button className="flex items-center bg-white text-black hover:bg-gray-200 shadow-lg px-4 py-2 rounded-lg mt-4">
+                            <Link href="/home/post" className="flex items-center bg-white text-black hover:bg-gray-200 shadow-lg px-4 py-2 rounded-lg mt-4">
                                 <img src="/assets/newPost.png" alt="Home" className="w-6 h-6 mr-2" />
                                 เขียนโพสต์
-                            </button>
+                            </Link>
                         </div>
                     </div>
                     
@@ -104,8 +126,36 @@ export default function User() {
                                 </p>
                             </div>
                             <div className="flex items-center mt-4">
-                                <button className="bg-[#3A3000] text-white hover:bg-[#2A1C08] shadow-lg px-4 py-1 mr-2 ml-96 rounded-2xl">แก้ไข</button>
-                                <button className="bg-[#960000] text-white hover:bg-[#690000] shadow-lg px-6 py-1 rounded-2xl">ลบ</button>
+                                <Link href="/user/editPost" className="bg-[#3A3000] text-white hover:bg-[#2A1C08] shadow-lg px-4 py-1 mr-2 ml-96 rounded-2xl">แก้ไข</Link>
+                                <button className="bg-[#960000] text-white hover:bg-[#690000] shadow-lg px-6 py-1 rounded-2xl"
+                                onClick={() => {
+                                    Swal.fire({
+                                        title: "คุณแน่ใจหรือไม่?",
+                                        text: "หากลบแล้วจะไม่สามารถกู้คืนโพสต์นี้ได้!",
+                                        icon: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonColor: "#d33",
+                                        cancelButtonColor: "#3085d6",
+                                        confirmButtonText: "ใช่",
+                                        cancelButtonText: "ยกเลิก",
+                                        customClass: {
+                                            popup: 'rounded-xl shadow-xl', // ปรับแต่งขอบและเงา
+                                            confirmButton: 'bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg',
+                                            cancelButton: 'bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded-lg'
+                                        }
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            Swal.fire({
+                                                title: "ลบโพสต์สำเร็จ!",
+                                                text: "โพสต์ของคุณถูกลบเรียบร้อยแล้ว",
+                                                icon: "success",
+                                                confirmButtonColor: "#3085d6",
+                                                confirmButtonText: "ตกลง",
+                                            });
+                                            // เพิ่มโค้ดสำหรับลบโพสต์ที่นี่
+                                        }
+                                    });
+                                }}>ลบ</button>
                             </div>
                         </div>
 
