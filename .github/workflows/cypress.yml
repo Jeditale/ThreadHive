@@ -21,6 +21,9 @@ jobs:
         run: npm install
         working-directory: threadhiveblog
 
+      - name: Build Next.js app
+        run: npm run build
+
       # Run Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
