@@ -3,9 +3,34 @@
 import NavBar from "@/app/components/Navbar";
 import SideBar from "@/app/components/Sidebar";
 import Link from 'next/link';
+import { useState,useEffect } from "react";
 import Swal from "sweetalert2";
 
 export default function EditForm() {
+
+    const [user, setUser] = useState([])
+
+    const base64Pic = "data:image/png;base64,"
+
+    useEffect(() => {
+        async function getUser() {
+            const userId = sessionStorage.getItem("userId")
+            const response = await fetch(`https://threadhive.onrender.com/users/${userId}`,{
+                headers : {
+                    'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+                }
+            })
+            if (!response.ok) {
+                throw new Error("cannot fetch");
+            }
+            const userData = await response.json();
+            setUser(userData)
+        }
+        getUser()
+        
+    }, []);
+
+
 
     return (
         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen">
@@ -15,26 +40,26 @@ export default function EditForm() {
                 <div className="col-start-3 col-span-3">
                     <div className="bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-lg shadow-lg w-full max-w-4xl mb-6 p-24 pt-10 pb-10">
                         <div className="flex flex-col items-center">
-                            <img src="/assets/profile.png" className="w-36 h-36" />
+                            <img src={base64Pic+user.profilePicture} className="w-36 h-36 rounded-full" />
                             <button className="bg-[#FAF3B8] dark:bg-[#FEF7D8] hover:bg-[#EAC67A] dark:hover:bg-[#ddd09a] rounded-2xl shadow-lg p-2 mt-5 mb-7">แก้ไขรูปโปรไฟล์</button>
                         </div>
 
                         <label className="dark:text-white">ชื่อผู้ใช้</label>
                         <div>
-                            <input type="text" name="name" placeholder="ชื่อผู้ใช้"
+                            <input type="text" name="name" placeholder={user.usrname}
                             className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                         </div>
 
                         <div className="flex space-x-4 items-center justify-center">
                             <div className="flex flex-col flex-grow">
                                 <label className="dark:text-white">ชื่อ</label>
-                                <input type="text" name="fname" placeholder="ชื่อ"
+                                <input type="text" name="fname" placeholder={user.fname}
                                 className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                             </div>
                             
                             <div className="flex flex-col flex-grow">
                                 <label className="dark:text-white">นามสกุล</label>
-                                <input type="text" name="lname" placeholder="นามสุล"
+                                <input type="text" name="lname" placeholder={user.lname}
                                 className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                             </div>
                         </div>
@@ -43,7 +68,7 @@ export default function EditForm() {
                         <div>
                             <select name="gender" placeholder="เพศ"
                             className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3">
-                                <option value="" disabled selected>เพศ</option>
+                                <option value="" disabled selected>{user.sex}</option>
                                 <option value="male">ชาย</option>
                                 <option value="female">หญิง</option>
                                 <option value="other">อื่นๆ</option>
