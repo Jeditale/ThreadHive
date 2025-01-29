@@ -2,27 +2,65 @@
 
 import NavBar from "../components/Navbar";
 import SideBar from "../components/Sidebar";
-import { useState, useEffect, use } from "react"
+import { useState, useEffect } from "react"
 import Link from 'next/link';
 import Swal from "sweetalert2";
+import { redirect } from "next/navigation";
 
 async function getPost(id) {
-    const response = await fetch(`https://678497a11ec630ca33a4d90c.mockapi.io/blog/${id}`);
+    const response = await fetch(`https://threadhive.onrender.com/posts/user/${id}`, {
+        headers : {
+            'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+        }
+    });
     if (!response.ok) {
         throw new Error("cannot fetch");
     }
     return response.json();
 }
 
+async function getUser(id) {
+    const response = await fetch(`https://threadhive.onrender.com/users/${id}`,{
+        headers : {
+            'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+        }
+    })
+    if (!response.ok) {
+        throw new Error("cannot fetch");
+    }
+    return response.json();
+}
+
+function logout() {
+    if (sessionStorage.getItem('userToken')) {
+        sessionStorage.removeItem('userId')
+        sessionStorage.removeItem('userToken')
+        redirect('/home')
+    }
+    
+}
+
 export default function User() {
     const [post, setPost] = useState(null); 
+    const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null); 
 
     useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const userData = await getUser(sessionStorage.getItem("userId"));
+                console.log(userData)
+                setUser(userData)
+                
+            } catch (err) {
+                setError(err.message);
+            }
+        
+        }
         const fetchPost = async () => {
             try {
-                const postData = await getPost(1); 
+                const postData = await getPost(sessionStorage.getItem("userId")); 
                 setPost(postData);
             } catch (err) {
                 setError(err.message);
@@ -30,6 +68,7 @@ export default function User() {
                 setLoading(false);
             }
         };
+        fetchUser();
         fetchPost();
     }, []);
 
@@ -67,9 +106,10 @@ export default function User() {
                     <div className="bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-lg p-5 shadow-lg w-full h-32 max-w-4xl mb-64">
                         <div className="flex flex-col items-center">
                             <div className="w-44 h-44 rounded-full mb-4">
-                                <img src={post.userProfile} alt="Profile" className="w-full h-full rounded-full" />
+
+                                <img src={user.profilePicture} alt="Profile" className="w-full h-full rounded-full" />
                             </div>
-                            <p className="text-xl font-semibold mb-5 dark:text-white">{post.username}</p>
+                            <p className="text-xl font-semibold mb-5 dark:text-white">{user.usrname}</p>
                             <div className="flex space-x-3">
                                 <Link href="/user/editProfile" className="bg-[#3A3000] dark:bg-[#504b34] text-white hover:bg-[#2A1C08] dark:hover:bg-[#6e684c] shadow-lg px-4 py-2 rounded-lg">แก้ไขโปรไฟล์</Link>
                                 <button className="bg-[#960000] text-white hover:bg-[#690000] shadow-lg px-4 py-2 rounded-lg"
@@ -94,6 +134,7 @@ export default function User() {
                                         }
                                     });
                                 }}>ออกจากระบบ</button>
+
                             </div>
                             <Link href="/home/post" className="flex items-center bg-white dark:bg-[#FEF7D8] text-black hover:bg-gray-200 dark:hover:bg-[#ddd09a] shadow-lg px-4 py-2 rounded-lg mt-4">
                                 <img src="/assets/newPost.png" alt="Home" className="w-6 h-6 mr-2" />
@@ -115,11 +156,11 @@ export default function User() {
                         {/*  ส่วนโปรไฟล์, ชื่อ และวันที่โพสต์ */}
                         <div className="relative flex items-center space-x-3 mb-3">
                             {/* รูปโปรไฟล์ */}
-                            <img src={post.userProfile} alt="Profile" className="w-12 h-12 rounded-full" />
+                            <img src={user.profilePicture} alt="Profile" className="w-12 h-12 rounded-full" />
 
                             {/* ชื่อและวันที่ */}
                             <div className="flex-1 min-w-0">
-                                <p className="font-semibold dark:text-white truncate">{post.username}</p>
+                                <p className="font-semibold dark:text-white truncate">{user.usrname}</p>
                                 <p className="text-gray-500 text-sm dark:text-white">
                                     {new Date(post.createdAt).toLocaleDateString("th-TH", {
                                         day: "2-digit",
@@ -175,7 +216,7 @@ export default function User() {
                         <Link href={`/home/user/${post.id}`}>
                             <div className="mb-5">
                                 <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
-                                <p className="text-gray-700 dark:text-white">{post.description}</p>
+                                <p className="text-gray-700 dark:text-white">{post.details}</p>
                             </div>
                         </Link>
 

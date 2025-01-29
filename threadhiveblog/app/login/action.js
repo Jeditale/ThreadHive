@@ -1,10 +1,33 @@
 "use server"
 
-import { redirect } from "next/navigation"
+import axios from "axios"
+
 
 export async function login(prevState, formData) {
     const email = formData.get('email')
     const password = formData.get('password')
-    
-    redirect('/home')
+
+    let data = JSON.stringify({
+        "email": email,
+        "password": password
+    });
+
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://threadhive.onrender.com/auth/login',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        data : data
+    };
+
+
+    const response = await axios.request(config);
+    console.log(JSON.stringify(response.data));
+
+    const user = response.data
+
+    return user;
+
 }

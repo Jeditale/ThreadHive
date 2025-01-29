@@ -1,7 +1,19 @@
 // components/NavBar.js
+"use client"
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function NavBar() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('userToken')) {
+        setIsAuthenticated(true);
+    }
+  }, []);
+
+
   return (
     <div className="fixed top-0 left-0 right-0 bg-[#EAC67A] dark:bg-[#2A1C08] z-50 shadow-lg">
       <div className="flex justify-between items-center px-4 py-3">
@@ -31,10 +43,24 @@ export default function NavBar() {
           </form>
         </div>
 
-        {/* Auth Links */}
-        <div className="flex space-x-4">
-          <Link href="/login" className="text-white px-3 py-2 rounded-lg bg-[#3C2A10] dark:bg-[#4a3d22] p-2 shadow-lg">Login</Link>
-          <Link href="/register" className="text-white px-3 py-2 rounded-lg bg-[#3C2A10] dark:bg-[#4a3d22] p-2 shadow-lg">Register</Link>
+        {/* Auth Links */}  
+        <div className="flex space-x-4" >
+          {
+            isAuthenticated ? (
+              <>
+                <Link href="/user" className="text-white px-3 py-2 rounded-lg bg-[#3C2A10] p-2 shadow-lg">
+                    Profile
+                </Link>
+            
+              </>
+
+            ) : (
+              <>
+                <Link href="/login" className="text-white px-3 py-2 rounded-lg bg-[#3C2A10] p-2shadow-lg">Login</Link>
+                <Link href="/register" className="text-white px-3 py-2 rounded-lg bg-[#3C2A10] p-2 shadow-lg">Register</Link>
+              </>
+            )
+          }
         </div>
       </div>
     </div>

@@ -1,22 +1,42 @@
+"use client"
+
 import NavBar from "../components/Navbar"
 import SideBar from "../components/Sidebar"
 import Link from "next/link"
 import ThemeToggle from "../components/ThemeToggle"
+import { useEffect, useState } from "react";
 
-async function getPosts() {
-    const response = await fetch('https://678497a11ec630ca33a4d90c.mockapi.io/blog')
-    if(!response.ok){
-      throw new Error('cannot fetch')
-  
-    }
-    return response.json()
-  }
+export default  function Posts(){
 
+    const [posts, setPosts] = useState([])
+    const [users, setUsers] = useState([])
+    const base64Pic = "data:image/png;base64,"
 
-export default async function Posts(){
-    // const headersRequest = headers()
-    // const user = JSON.parse(headersRequest.get('user'))
-    const posts = await getPosts()
+    useEffect(() => {
+        async function getPosts() {
+            console.log(sessionStorage.getItem("userToken"))
+            const response = await fetch('https://threadhive.onrender.com/posts')
+            if(!response.ok){
+              throw new Error('cannot fetch')
+          
+            }
+            const data = await response.json();
+            setPosts(data) 
+          } 
+          async function getUserFromPost(id) {
+            const response = await fetch(`https://threadhive.onrender.com/users/${id}`)
+            if(!response.ok){
+                throw new Error('cannot fetch')
+            
+              }
+            const data = await response.json();
+            setUsers(data)
+          }
+        getPosts()
+        getUserFromPost(posts.map((post) => (
+            post.userId
+        )))
+    },[])
 
     return (
         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A]">
@@ -49,14 +69,14 @@ export default async function Posts(){
                                     <Link href={`/home/post/${post.id}`}>
                                         <div className="mb-5">
                                             <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
-                                            <p className="text-gray-700 dark:text-white">{post.description}</p>
+                                            <p className="text-gray-700 dark:text-white">{post.details}</p>
                                         </div>
                                     </Link>
 
                                     {/* ส่วนรูปภาพ (แสดงเมื่อมีรูป) */}
                                     {post.image && (
                                         <div className="mt-2">
-                                            <img src={post.image} alt="Post Image" className="w-full rounded-lg" />
+                                            <img src={base64Pic+(post.image)} alt="Post Image" className="w-full rounded-lg" />
                                         </div>
                                     )}
 

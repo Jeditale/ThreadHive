@@ -3,15 +3,23 @@
 import NavBar from "@/app/components/Navbar"
 import SideBar from "@/app/components/Sidebar"
 import Link from "next/link"
-import { comment } from "postcss"
 import { useState, useEffect, use } from "react"
 
 async function getPost(id) {
-    const response = await fetch(`https://678497a11ec630ca33a4d90c.mockapi.io/blog/${id}`)
+    const response = await fetch(`https://threadhive.onrender.com/posts/${id}`)
     if (!response.ok) {
         throw new Error('cannot fetch')
     }
     return response.json()
+}
+
+async function getComment(id) {
+  const response = await fetch(`https://threadhive.onrender.com/post-comments/all/${id}`)
+  if (!response.ok) {
+    throw new Error('cannot fetch')
+  }
+  return response.json()
+  
 }
 
 export default function Post({ params }) {
@@ -19,7 +27,7 @@ export default function Post({ params }) {
 
     const [post, setPost] = useState({
         title: '',
-        description: '',
+        details: '',
         userProfile: '',
         username: '',
         createdAt: '',
@@ -28,6 +36,14 @@ export default function Post({ params }) {
         comments: 0,
         shares: 0
     });
+
+    const [comment, setComment] = useState({
+        id: '',
+        postId: '',
+        userId: '',
+        comment: '',
+        createdAt: ''
+    })
 
     const initPost = async () => {
         try {
@@ -38,8 +54,18 @@ export default function Post({ params }) {
         }
     };
 
+    const initComment = async () => {
+      try {
+          const result = await getComment(id);
+          setComment(result);
+      } catch (error) {
+          console.log('error', error);
+      }
+    }
+
     useEffect(() => {
         initPost();
+        
     }, []);
 
     return (
@@ -66,7 +92,8 @@ export default function Post({ params }) {
 
                 {/* ส่วนข้อความ */}
                 <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
-                <p className="text-gray-700 mb-5 dark:text-white">{post.description}</p>
+                <p className="text-gray-700 mb-5 dark:text-white">{post.details}</p>
+
 
                 {/* ส่วนรูปภาพ (แสดงเมื่อมีรูป) */}
                 {post.image && (
@@ -124,7 +151,7 @@ export default function Post({ params }) {
                   </div>
 
                   {/* ส่วนข้อความ */}
-                  <p className="text-gray-700 dark:text-white">สวัสดี!!!</p>
+                  <p className="text-gray-700 dark:text-white">{comment.comment}</p>
 
                   {/* ปุ่ม Like, Comment, Share */}
                   <div className="flex items-center space-x-5 mt-4 text-gray-600 dark:text-black">

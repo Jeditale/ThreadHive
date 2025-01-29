@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  fname           String
+  lname           String
+  profilePicture  String?
+  email           String           @unique
+  password        String
+  bdate           DateTime
+  createdAt       DateTime         @default(now())
+  sex             String
+  isAdmin         Boolean          @default(false)
+  usrname         String
+  commentComments CommentComment[]
+  commentLikes    CommentLike[]
+  notifications   Notification[]
+  posts           Post[]
+  postComments    PostComment[]
+  postLikes       PostLike[]
+}
+
+model Post {
+  id        Int           @id @default(autoincrement())
+  userId    Int
+  title     String
+  tags      String[]
+  details   String
+  image     String?
+  createdAt DateTime      @default(now())
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments  PostComment[]
+  likes     PostLike[]
+}
+
+model PostComment {
+  id        Int              @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  comment   String
+  createdAt DateTime         @default(now())
+  replies   CommentComment[]
+  likes     CommentLike[]
+  post      Post             @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CommentComment {
+  id            Int         @id @default(autoincrement())
+  commentId     Int
+  userId        Int
+  comment       String
+  createdAt     DateTime    @default(now())
+  commentParent PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PostLike {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    Int
+  upVote    Boolean
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+}
+
+model CommentLike {
+  id        Int         @id @default(autoincrement())
+  commentId Int
+  userId    Int
+  upVote    Boolean
+  createdAt DateTime    @default(now())
+  comment   PostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  type      String
+  message   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

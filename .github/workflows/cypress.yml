@@ -1,0 +1,39 @@
+name: Cypress Tests
+on: [push]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    defaults:
+     run:
+      working-directory: ./threadhiveblog
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2] # Uses 2 parallel instances
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get directory
+        run: ls
+
+      # Install dependencies in the threadhiveblog directory
+      - name: Install Dependencies
+        run: npm install
+        working-directory: threadhiveblog
+
+      - name: Build Next.js app
+        run: npm run build
+
+      # Run Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        
+        with:
+          working-directory: ./threadhiveblog # Add path
+          start: npm start
+          wait-on: 'http://localhost:3000'  # Wait for your server to be ready
+          record: true
+          parallel: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

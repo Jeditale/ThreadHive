@@ -2,6 +2,7 @@ import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
 
 export default function SideBar() {
+    
     return (
         <div className="grid grid-cols-6 pt-16">
             <div className="col-start-1 bg-[#EAC67A] dark:bg-[#2F2117] fixed h-full w-1/6">

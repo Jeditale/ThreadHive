@@ -1,16 +1,48 @@
 "use client"
-
-import Link from "next/link"
+import { redirect } from "next/navigation";
 import { login } from "./action"
-import { useActionState } from "react"
+import { useActionState,useEffect, useState  } from "react"
 
 export default function LoginPage() {
 
-    const init = {
+    const [user, formAction] = useActionState(login,null)
+    const [userCheck, setUser] = useState(null)
 
-    }
+    useEffect(() => {
+        async function checkAdmin() {
+            const fetchUser = await fetch(`https://threadhive.onrender.com/users/${user.userId}`,{
+                headers : {
+                    'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+                }
+            })
 
-    const [state, formAction] = useActionState(login,init)
+            if(!fetchUser.ok){
+                throw new Error('cannot fetch')
+            
+            }
+            const data = await fetchUser.json();
+            setUser(data)
+
+            if(data.isAdmin == true){
+                redirect('/admin')
+            } else {
+                redirect('/home')
+            }
+        }
+
+        function checkSession() {
+            if (user && user.token) {
+                sessionStorage.setItem('userId', user.userId);
+                sessionStorage.setItem('userToken', user.token);
+            }
+        }
+        checkSession()
+        checkAdmin()
+
+
+    }, [user]);
+
+    
     return (
         <div className="flex min-h-screen items-center justify-center bg-cover bg-center " style={{ backgroundImage: "url('/assets/bg5.png') " }}>
             <form action={formAction} className="bg-white bg-opacity-40 p-6 rounded-2xl shadow-lg w-1/3 h-auto">
