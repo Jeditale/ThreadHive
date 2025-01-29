@@ -101,7 +101,7 @@ export default function RegisterPage() {
                                 }
                             });
                         }}
-                    >สมัครสมาชิก</Link>
+                    >บันทีก</Link>
                 </div>
                 
             </form>

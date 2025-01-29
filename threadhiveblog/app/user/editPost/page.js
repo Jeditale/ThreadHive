@@ -40,20 +40,20 @@ export default function EditPost() {
     }, [id]);
 
     return(
-        <div className="bg-[#FAF3B8] min-h-screen">
+        <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen">
             <NavBar/>
             <SideBar/>
             <div className="grid grid-cols-6 mt-5">
                 <div className="col-start-3 col-span-3">
-                    <p className="text-center text-xl mb-5">แก้ไขโพสต์</p>
-                    <div className="bg-[#FFF8DC] shadow-lg rounded-2xl p-6 w-full h-min">
+                    <p className="text-center text-xl mb-5 dark:text-white">แก้ไขโพสต์</p>
+                    <div className="bg-[#FFF8DC] dark:bg-[#5b4e4a] shadow-lg rounded-2xl p-6 w-full h-min">
 
                         {/* โปรไฟล์ */}
                         <div className="flex items-center mb-2">
                             <img src={post.userProfile} alt="Profile" className="h-14 w-14 mr-2"></img>
                             <div>
-                                <p className="font-semibold">{post.username}</p>
-                                <p className="text-gray-500 text-sm">
+                                <p className="font-semibold dark:text-white">{post.username}</p>
+                                <p className="text-gray-500 text-sm dark:text-white">
                                     {new Date(post.createdAt).toLocaleDateString("th-TH", {
                                         day: "2-digit",
                                         month: "long",
@@ -65,8 +65,8 @@ export default function EditPost() {
 
                         {/* ข้อความ */}
                         <div>
-                            <textarea placeholder="หัวข้อโพสต์" className="w-full p-3 mt-5 border rounded-lg bg-white" rows={1}></textarea>
-                            <textarea placeholder="ข้อความ" className="w-full p-3 mt-5 border rounded-md bg-white" rows={4}></textarea>
+                            <textarea placeholder="หัวข้อโพสต์" className="w-full p-3 mt-5 border rounded-lg bg-white dark:bg-[#FEF7D8]" rows={1}></textarea>
+                            <textarea placeholder="ข้อความ" className="w-full p-3 mt-5 border rounded-md bg-white dark:bg-[#FEF7D8]" rows={4}></textarea>
                         </div>
 
                         {/* แสดงรูปภาพ */}

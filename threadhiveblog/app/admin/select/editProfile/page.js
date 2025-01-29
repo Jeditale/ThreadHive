@@ -16,7 +16,7 @@ export default function EditForm() {
                     <div className="bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-lg shadow-lg w-full max-w-4xl mb-6 p-24 pt-10 pb-10">
                         <div className="flex flex-col items-center">
                             <img src="/assets/profile.png" className="w-36 h-36" />
-                            <button className="bg-[#FAF3B8] dark:bg-[#FEF7D8] hover:bg-[#EAC67A] dark:hover:bg-[#ddd09a] rounded-2xl shadow-lg p-2 mt-5 mb-7">แก้ไขรูปโปรไฟล์</button>
+                            <button className="bg-[#FAF3B8] dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] rounded-2xl shadow-lg p-2 mt-5 mb-7">แก้ไขรูปโปรไฟล์</button>
                         </div>
 
                         <label className="dark:text-white">ชื่อผู้ใช้</label>
@@ -91,11 +91,11 @@ export default function EditForm() {
                         </div>
 
                         <div className="flex space-x-3 items-center justify-center">
-                            <Link href="/user" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2"
+                            <Link href="/admin/select" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2"
                             onClick={() => {
                                 Swal.fire({
                                     title: "บันทึกข้อมูลสำเร็จ!",
-                                    text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
+                                    text: "ข้อมูลของบัญชีนี้ถูกบันทึกเรียบร้อยแล้ว",
                                     icon: "success",
                                     confirmButtonColor: "#3085d6",
                                     confirmButtonText: "ตกลง",
@@ -106,7 +106,7 @@ export default function EditForm() {
                                 });
                             }}
                             >บันทึก</Link>
-                            <Link href="/user" className="bg-[#960000] hover:bg-[#690000] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">ยกเลิก</Link>
+                            <Link href="/admin/select" className="bg-[#960000] hover:bg-[#690000] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">ยกเลิก</Link>
                         </div>
                     </div>
                 </div>
