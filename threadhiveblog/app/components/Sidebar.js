@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function SideBar() {
+    
     return (
         <div className="grid grid-cols-6 pt-16">
             <div className="col-start-1 bg-[#EAC67A] fixed h-full w-1/6">

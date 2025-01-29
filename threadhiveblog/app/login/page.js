@@ -2,18 +2,45 @@
 
 import { redirect } from "next/navigation";
 import { login } from "./action"
-import { useActionState,useEffect  } from "react"
+import { useActionState,useEffect, useState  } from "react"
 
 export default function LoginPage() {
 
     const [user, formAction] = useActionState(login,null)
+    const [userCheck, setUser] = useState(null)
 
     useEffect(() => {
-        if (user && user.token) {
-            sessionStorage.setItem('userId', user.userId);
-            sessionStorage.setItem('userToken', user.token);
-            redirect('/home')
+        async function checkAdmin() {
+            const fetchUser = await fetch(`https://threadhive.onrender.com/users/${user.userId}`,{
+                headers : {
+                    'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+                }
+            })
+
+            if(!fetchUser.ok){
+                throw new Error('cannot fetch')
+            
+            }
+            const data = await fetchUser.json();
+            setUser(data)
+
+            if(data.isAdmin == true){
+                redirect('/admin')
+            } else {
+                redirect('/home')
+            }
         }
+
+        function checkSession() {
+            if (user && user.token) {
+                sessionStorage.setItem('userId', user.userId);
+                sessionStorage.setItem('userToken', user.token);
+            }
+        }
+        checkSession()
+        checkAdmin()
+
+
     }, [user]);
 
     

@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 export default  function Posts(){
 
     const [posts, setPosts] = useState([])
+    const [users, setUsers] = useState([])
+    const base64Pic = "data:image/png;base64,"
 
     useEffect(() => {
         async function getPosts() {
@@ -21,7 +23,19 @@ export default  function Posts(){
             const data = await response.json();
             setPosts(data) 
           } 
-        getPosts()           
+          async function getUserFromPost(id) {
+            const response = await fetch(`https://threadhive.onrender.com/users/${id}`)
+            if(!response.ok){
+                throw new Error('cannot fetch')
+            
+              }
+            const data = await response.json();
+            setUsers(data)
+          }
+        getPosts()
+        getUserFromPost(posts.map((post) => (
+            post.userId
+        )))
     },[])
 
     return (
@@ -62,7 +76,7 @@ export default  function Posts(){
                                     {/* ส่วนรูปภาพ (แสดงเมื่อมีรูป) */}
                                     {post.image && (
                                         <div className="mt-2">
-                                            <img src={post.image} alt="Post Image" className="w-full rounded-lg border" />
+                                            <img src={base64Pic+(post.image)} alt="Post Image" className="w-full rounded-lg border" />
                                         </div>
                                     )}
 

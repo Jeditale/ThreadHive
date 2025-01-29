@@ -2,9 +2,11 @@
 
 import { redirect } from "next/navigation"
 import { register } from "./action"
-import { useActionState, useState } from "react"
+import { useActionState, useState, useEffect } from "react"
 
 export default function RegisterPage() {
+
+    const [state, formAction] = useActionState(register,null)
 
     const [pass, setPass] = useState('')
     const [conPass, setConPass] = useState('')
@@ -39,10 +41,6 @@ export default function RegisterPage() {
         setConPass('');
     }
 
-    const init = async () => {
-        initRegister()
-    }
-
     
     function checkPass() {
         if (conPass == pass){
@@ -55,7 +53,11 @@ export default function RegisterPage() {
         
     }
 
-    const [state, formAction] = useActionState(register,init)
+    useEffect(() => {
+        initRegister()
+    },[state])
+
+    
     return (
         <div className="flex min-h-screen items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/assets/bg.png')" }}>
             <form action={formAction} className="bg-white bg-opacity-40 p-6 rounded-2xl shadow-lg w-1/3 h-1/2">
