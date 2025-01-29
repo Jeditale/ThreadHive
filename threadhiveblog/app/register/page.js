@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation"
 import { register } from "./action"
+import Swal from "sweetalert2"
 import { useActionState, useState, useEffect } from "react"
 
 export default function RegisterPage() {
@@ -59,10 +60,10 @@ export default function RegisterPage() {
 
     
     return (
-        <div className="flex min-h-screen items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/assets/bg.png')" }}>
+        <div className="flex min-h-screen items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/assets/bg5.png')" }}>
             <form action={formAction} className="bg-white bg-opacity-40 p-6 rounded-2xl shadow-lg w-1/3 h-1/2">
 
-                <h2 className="text-white text-3xl text-center mb-10 mt-5">สมัครบัญชีผู้ใช้งาน</h2>
+                <h2 className=" text-3xl text-center mb-10 mt-5">สร้างบัญชีผู้ใช้งาน</h2>
 
                 <div>
                     <input type="text" name="username" placeholder="ชื่อผู้ใช้งาน" defaultValue={formData.username}
@@ -94,7 +95,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div>
-                    <label className="text-base text-white underline decoration-white">วันเกิด</label>
+                    <label className="text-base">วันเกิด</label>
                     <div className="flex space-x-4">
                         <select name="day" defaultValue={formData.day} className="text-base  w-full p-1 pl-3 mb-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-[#3A3000] focus:outline-none">
                             <option value="" disabled selected>วัน</option>
@@ -134,7 +135,20 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="flex justify-center">
-                    <button className="w-auto bg-[#3A3000] text-white text-xl p-10 pt-2 pb-2 rounded-2xl hover:bg-black transition duration-300 mb-10 mt-10 " onClick={checkPass}>สมัครสมาชิก</button>
+                    <button className="w-auto bg-[#3A3000] text-white text-xl p-10 pt-2 pb-2 rounded-2xl hover:bg-black transition duration-300 mb-10 mt-10 " onClick={() => {
+                            Swal.fire({
+                                title: "สร้างบัญชีผู้ใช้สำเร็จสำเร็จ!",
+                                text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
+                                icon: "success",
+                                confirmButtonColor: "#3085d6",
+                                confirmButtonText: "ตกลง",
+                                customClass: {
+                                popup: 'rounded-xl shadow-xl', 
+                                confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg'
+                                }
+                            });
+                        }}
+                          >บันทีก</button>
                 </div>
                 
             </form>
