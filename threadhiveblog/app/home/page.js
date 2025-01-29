@@ -1,21 +1,28 @@
+"use client"
+
 import NavBar from "../components/Navbar"
 import SideBar from "../components/Sidebar"
 import Link from "next/link"
-
-async function getPosts() {
-    const response = await fetch('https://threadhive.onrender.com/posts')
-    if(!response.ok){
-      throw new Error('cannot fetch')
-  
-    }
-    return response.json()
-  }
+import { useEffect, useState } from "react";
 
 
-export default async function Posts(){
-    // const headersRequest = headers()
-    // const user = JSON.parse(headersRequest.get('user'))
-    const posts = await getPosts()
+export default  function Posts(){
+
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+        async function getPosts() {
+            console.log(sessionStorage.getItem("userToken"))
+            const response = await fetch('https://threadhive.onrender.com/posts')
+            if(!response.ok){
+              throw new Error('cannot fetch')
+          
+            }
+            const data = await response.json();
+            setPosts(data) 
+          } 
+        getPosts()           
+    },[])
 
     return (
         <div className="bg-[#FAF3B8]">

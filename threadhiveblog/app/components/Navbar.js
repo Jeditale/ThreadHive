@@ -1,19 +1,17 @@
 // components/NavBar.js
 "use client"
 
-import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function NavBar() {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    if (cookies.token) {
+    if (sessionStorage.getItem('userToken')) {
         setIsAuthenticated(true);
     }
-  }, [cookies]);
+  }, []);
 
 
   return (
@@ -44,7 +42,7 @@ export default function NavBar() {
           {
             isAuthenticated ? (
               <>
-                <Link href="/profile" className="text-white px-3 py-2 rounded-lg bg-[#3C2A10] p-2 shadow-lg">
+                <Link href="/user" className="text-white px-3 py-2 rounded-lg bg-[#3C2A10] p-2 shadow-lg">
                     Profile
                 </Link>
             

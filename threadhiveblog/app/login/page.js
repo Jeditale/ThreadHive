@@ -1,16 +1,22 @@
 "use client"
 
+import { redirect } from "next/navigation";
 import { login } from "./action"
-import { useActionState } from "react"
+import { useActionState,useEffect  } from "react"
 
 export default function LoginPage() {
 
-    const init = {
-        
+    const [user, formAction] = useActionState(login,null)
 
-    }
+    useEffect(() => {
+        if (user && user.token) {
+            sessionStorage.setItem('userId', user.userId);
+            sessionStorage.setItem('userToken', user.token);
+            redirect('/home')
+        }
+    }, [user]);
 
-    const [state, formAction] = useActionState(login,init)
+    
     return (
         <div className="flex min-h-screen items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/assets/bg.png')" }}>
             <form action={formAction} className="bg-white bg-opacity-40 p-6 rounded-2xl shadow-lg w-1/3 h-auto">

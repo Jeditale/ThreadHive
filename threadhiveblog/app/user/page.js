@@ -2,7 +2,7 @@
 
 import NavBar from "../components/Navbar";
 import SideBar from "../components/Sidebar";
-import { useState, useEffect, use } from "react"
+import { useState, useEffect } from "react"
 import Link from 'next/link';
 
 async function getPost(id) {
@@ -21,7 +21,7 @@ export default function User() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const postData = await getPost(1); 
+                const postData = await getPost(sessionStorage.getItem("userId")); 
                 setPost(postData);
             } catch (err) {
                 setError(err.message);
