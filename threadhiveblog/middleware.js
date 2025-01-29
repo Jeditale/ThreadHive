@@ -7,7 +7,7 @@ export async function middleware(req) {
 
     const protectedRoutes = ["/home/post", "/user"];
 
-    // if (protectedRoutes.some(route => req.nextUrl.pathname.startsWith(route))) {
+    // if (protectedRoutes.some(route => req.nextUrl.pathname.startsWith(route)) && !token) {
     //     return NextResponse.redirect(new URL("/login", req.url));
     // }
 

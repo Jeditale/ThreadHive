@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 export default  function Posts(){
 
     const [posts, setPosts] = useState([])
-    const [users, setUsers] = useState([])
+    const [likes, setLikes] = useState([])
+    // const [users, setUsers] = useState([])
     const base64Pic = "data:image/png;base64,"
 
     useEffect(() => {
@@ -21,21 +22,28 @@ export default  function Posts(){
           
             }
             const data = await response.json();
-            setPosts(data) 
-          } 
-          async function getUserFromPost(id) {
-            const response = await fetch(`https://threadhive.onrender.com/users/${id}`)
-            if(!response.ok){
-                throw new Error('cannot fetch')
+
+            const addData = await Promise.all(
+                data.map(async (post) => {
+                    const likeRes = await fetch(`https://threadhive.onrender.com/post-likes/count/${post.id}`)
+                    // const commentRes = await fetch(``)
+                    if(!likeRes.ok){
+                        return {upvoteCount: 0}
+                    }
+                    
+                    const likeCount = await likeRes.json()
+                    return {
+                        ...post,
+                        likeCount: likeCount.upvoteCount
+                    }
+                })
+            )
             
-              }
-            const data = await response.json();
-            setUsers(data)
-          }
+            setPosts(addData)
+        } 
+
         getPosts()
-        getUserFromPost(posts.map((post) => (
-            post.userId
-        )))
+        
     },[])
 
     return (
@@ -85,7 +93,7 @@ export default  function Posts(){
                                         <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                             <span className="text-xl">
                                                 <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-2" />
-                                            </span> <span>{post.likes ?? 0}</span>ถูกใจ
+                                            </span> <span>{post.likeCount}</span>ถูกใจ
                                         </button>
                                         <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                             <span className="text-xl">

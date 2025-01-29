@@ -1,5 +1,6 @@
 "use client"
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { login } from "./action"
 import { useActionState,useEffect, useState  } from "react"
 
@@ -10,7 +11,8 @@ export default function LoginPage() {
 
     useEffect(() => {
         async function checkAdmin() {
-            const fetchUser = await fetch(`https://threadhive.onrender.com/users/${user.userId}`,{
+            const token = sessionStorage.getItem('userId')
+            const fetchUser = await fetch(`https://threadhive.onrender.com/users/${token}`,{
                 headers : {
                     'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
                 }

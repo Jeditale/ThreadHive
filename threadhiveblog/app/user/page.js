@@ -7,30 +7,6 @@ import Link from 'next/link';
 import Swal from "sweetalert2";
 import { redirect } from "next/navigation";
 
-async function getPost(id) {
-    const response = await fetch(`https://threadhive.onrender.com/posts/user/${id}`, {
-        headers : {
-            'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
-        }
-    });
-    if (!response.ok) {
-        throw new Error("cannot fetch");
-    }
-    return response.json();
-}
-
-async function getUser(id) {
-    const response = await fetch(`https://threadhive.onrender.com/users/${id}`,{
-        headers : {
-            'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
-        }
-    })
-    if (!response.ok) {
-        throw new Error("cannot fetch");
-    }
-    return response.json();
-}
-
 function logout() {
     if (sessionStorage.getItem('userToken')) {
         sessionStorage.removeItem('userId')
@@ -41,60 +17,65 @@ function logout() {
 }
 
 export default function User() {
-    const [post, setPost] = useState(null); 
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true); 
-    const [error, setError] = useState(null); 
+    const [post, setPost] = useState([]); 
+    const [user, setUser] = useState([])
+    // const [loading, setLoading] = useState(true); 
+    // const [error, setError] = useState(null); 
+
+    const base64Pic = "data:image/png;base64,"
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const userData = await getUser(sessionStorage.getItem("userId"));
-                console.log(userData)
-                setUser(userData)
-                
-            } catch (err) {
-                setError(err.message);
+        async function getPost() {
+            const userId = sessionStorage.getItem("userId")
+            const response = await fetch(`https://threadhive.onrender.com/posts/user/${userId}`, {
+                headers : {
+                    'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error("cannot fetch");
             }
-        
+            return response.json();
         }
-        const fetchPost = async () => {
-            try {
-                const postData = await getPost(sessionStorage.getItem("userId")); 
-                setPost(postData);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
+        
+        async function getUser() {
+            const userId = sessionStorage.getItem("userId")
+            const response = await fetch(`https://threadhive.onrender.com/users/${userId}`,{
+                headers : {
+                    'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+                }
+            })
+            if (!response.ok) {
+                throw new Error("cannot fetch");
             }
-        };
-        fetchUser();
-        fetchPost();
+            return response.json();
+        }
+        
     }, []);
 
-    if (loading) {
-        return (
-            <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen flex justify-center items-center">
-                <p className="dark:text-white">กำลังโหลดข้อมูล...</p>
-            </div>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen flex justify-center items-center">
+    //             <p className="dark:text-white">กำลังโหลดข้อมูล...</p>
+    //         </div>
+    //     );
+    // }
 
-    if (error) {
-        return (
-            <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen flex justify-center items-center">
-                <p className="dark:text-white">เกิดข้อผิดพลาด: {error}</p>
-            </div>
-        );
-    }
+    // if (error) {
+    //     return (
+    //         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen flex justify-center items-center">
+    //             <p className="dark:text-white">เกิดข้อผิดพลาด: {error}</p>
+    //         </div>
+    //     );
+    // }
 
-    if (!post) {
-        return (
-            <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen flex justify-center items-center">
-                <p className="dark:text-white">ไม่พบโพสต์</p>
-            </div>
-        );
-    }
+    // if (!posts) {
+    //     return (
+    //         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen flex justify-center items-center">
+    //             <p className="dark:text-white">ไม่พบโพสต์</p>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen">
@@ -107,7 +88,7 @@ export default function User() {
                         <div className="flex flex-col items-center">
                             <div className="w-44 h-44 rounded-full mb-4">
 
-                                <img src={user.profilePicture} alt="Profile" className="w-full h-full rounded-full" />
+                                <img src={base64Pic+(user.profilePicture)} alt="Profile" className="w-full h-full rounded-full" />
                             </div>
                             <p className="text-xl font-semibold mb-5 dark:text-white">{user.usrname}</p>
                             <div className="flex space-x-3">
@@ -130,7 +111,7 @@ export default function User() {
                                                 icon: "success",
                                                 confirmButtonColor: "#3085d6",
                                             });
-                                            // เพิ่มโค้ดสำหรับออกจากระบบที่นี่
+                                            logout()
                                         }
                                     });
                                 }}>ออกจากระบบ</button>
@@ -210,10 +191,8 @@ export default function User() {
                                 </button>
                             </div>
                         </div>
-
-
                         {/* ส่วนข้อความ */}
-                        <Link href={`/home/user/${post.id}`}>
+                        <Link href={`/home/user/${sessionStorage.getItem("userId")}`}>
                             <div className="mb-5">
                                 <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
                                 <p className="text-gray-700 dark:text-white">{post.details}</p>
