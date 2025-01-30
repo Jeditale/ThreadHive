@@ -42,7 +42,8 @@ export async function register(prevState, formData) {
         "email": email,
         "password": confirmPassword,
         "bdate": combineDate(),
-        "sex": gender
+        "sex": gender,
+        "profilePicture" : "/assets/profile.png"
     });
 
     let config = {

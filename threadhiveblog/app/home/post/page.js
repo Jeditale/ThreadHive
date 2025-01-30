@@ -50,7 +50,7 @@ export default function CreatePost() {
                 <form className="bg-[#FEF7D8] dark:bg-[#5b4e4a] p-8 rounded-2xl shadow-lg w-full mt-5" onSubmit={handleSubmit}>
                     {/* ส่วนหัวของโปรไฟล์ */}
                     <div className="flex items-center space-x-3 mb-4">
-                        <img src={base64Pic+(user.profilePicture)} alt="Profile" className="w-10 h-10 rounded-full" />
+                        <img src={base64Pic+(user.profilePicture) ?? "/assets/profile.png"} alt="Profile" className="w-10 h-10 rounded-full" />
                         <div>
                             <p className="dark:text-white">{user.usrname}</p>
                         </div>
