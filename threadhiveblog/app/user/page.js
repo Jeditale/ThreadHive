@@ -16,6 +16,20 @@ function logout() {
     
 }
 
+async function deletePost(id) {
+    const response = await fetch(`https://threadhive.onrender.com/posts/${id}`,{
+        method : "DELETE",
+        headers : {
+            'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
+        }
+    })
+    if (!response.ok) {
+        throw new Error("cannot delete");
+    }
+
+    window.location.reload();
+}
+
 export default function User() {
     const [posts, setPost] = useState([]); 
     const [user, setUser] = useState([])
@@ -189,7 +203,7 @@ export default function User() {
                                                         confirmButtonColor: "#3085d6",
                                                         confirmButtonText: "ตกลง",
                                                     });
-                                                    // เพิ่มโค้ดสำหรับลบโพสต์ที่นี่
+                                                    deletePost(post.id)
                                                 }
                                             });
                                         }}

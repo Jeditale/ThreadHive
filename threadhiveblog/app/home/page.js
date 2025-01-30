@@ -4,14 +4,26 @@ import NavBar from "../components/Navbar"
 import SideBar from "../components/Sidebar"
 import Link from "next/link"
 import ThemeToggle from "../components/ThemeToggle"
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { countLikes } from "./action"
 
 export default  function Posts(){
 
     const [posts, setPosts] = useState([])
-    const [likes, setLikes] = useState([])
-    // const [users, setUsers] = useState([])
+    const [likes, formData] = useActionState(countLikes,null)
     const base64Pic = "data:image/png;base64,"
+
+    const handleCount = (prevCount,postId) => async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        formData.append("likesCount",prevCount);
+
+        formAction(formData);
+    };
+
+    function fecthLike() {
+        
+    }
 
     useEffect(() => {
         async function getPosts() {
@@ -92,7 +104,7 @@ export default  function Posts(){
                                     <div className="flex items-center space-x-5 mt-4 text-gray-600 dark:text-black">
                                         <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                             <span className="text-xl">
-                                                <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-2" />
+                                                <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-2" onClick={handleCount(post.likeCount++,post.id)} />
                                             </span> <span>{post.likeCount}</span>ถูกใจ
                                         </button>
                                         <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
