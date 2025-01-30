@@ -49,7 +49,7 @@ export async function register(prevState, formData) {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://threadhive.onrender.com/auth/register',
+        url: 'http://localhost:3000/auth/register',
         headers: { 
             'Content-Type': 'application/json'
         },
@@ -66,5 +66,5 @@ export async function register(prevState, formData) {
     });
 
 
-    redirect('/home')
+    redirect('/login')
 }

@@ -18,14 +18,14 @@ export async function create(prevState, formData) {
             "string"
         ],
         "details": details,
-        "image": "imageUrl",
+        "image": imageUrl,
         "userId": userId
     });
 
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://threadhive.onrender.com/posts',
+        url: 'http://localhost:3000/posts',
         headers: { 
             'mode':'cors',
             'Content-Type': 'application/json', 

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useState, useEffect, use } from "react"
 
 async function getPost(id) {
-    const response = await fetch(`https://threadhive.onrender.com/posts/${id}`)
+    const response = await fetch(`http://localhost:3000/posts/${id}`)
     if (!response.ok) {
         throw new Error('cannot fetch')
     }
@@ -14,7 +14,7 @@ async function getPost(id) {
 }
 
 async function getComment(id) {
-  const response = await fetch(`https://threadhive.onrender.com/post-comments/all/${id}`)
+  const response = await fetch(`http://localhost:3000/post-comments/all/${id}`)
   if (!response.ok) {
     throw new Error('cannot fetch')
   }

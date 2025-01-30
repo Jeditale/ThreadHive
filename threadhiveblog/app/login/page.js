@@ -12,7 +12,7 @@ export default function LoginPage() {
     useEffect(() => {
         async function checkAdmin() {
             const token = sessionStorage.getItem('userId')
-            const fetchUser = await fetch(`https://threadhive.onrender.com/users/${token}`,{
+            const fetchUser = await fetch(`http://localhost:3000/users/${token}`,{
                 headers : {
                     'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
                 }

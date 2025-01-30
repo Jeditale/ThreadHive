@@ -15,7 +15,7 @@ export default function EditForm() {
     useEffect(() => {
         async function getUser() {
             const userId = sessionStorage.getItem("userId")
-            const response = await fetch(`https://threadhive.onrender.com/users/${userId}`,{
+            const response = await fetch(`http://localhost:3000/users/${userId}`,{
                 method : "POST",
                 headers : {
                     'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`

@@ -16,7 +16,7 @@ export async function login(prevState, formData) {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://threadhive.onrender.com/auth/login',
+        url: 'http://localhost:3000/auth/login',
         headers: { 
           'Content-Type': 'application/json',
         },

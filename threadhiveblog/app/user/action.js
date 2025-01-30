@@ -7,7 +7,7 @@ export async function fetch(prevState) {
     let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: 'https://threadhive.onrender.com/posts',
+    url: 'http://localhost:3000/posts',
     headers: { 
         'Content-Type': 'application/json'
     },

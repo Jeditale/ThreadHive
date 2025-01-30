@@ -19,7 +19,7 @@ function logout() {
 }
 
 async function deletePost(id) {
-    const response = await fetch(`https://threadhive.onrender.com/posts/${id}`,{
+    const response = await fetch(`http://localhost:3000/posts/${id}`,{
         method : "DELETE",
         headers : {
             'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
@@ -44,7 +44,7 @@ export default function User() {
     useEffect(() => {
         async function getUser() {
             const userId = sessionStorage.getItem("userId")
-            const response = await fetch(`https://threadhive.onrender.com/users/${userId}`,{
+            const response = await fetch(`http://localhost:3000/users/${userId}`,{
                 headers : {
                     'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
                 }
@@ -58,7 +58,7 @@ export default function User() {
 
         async function getPostFromUser() {
             const userId = sessionStorage.getItem("userId")
-            const response = await fetch(`https://threadhive.onrender.com/posts/user/${userId}`,{
+            const response = await fetch(`http://localhost:3000/posts/user/${userId}`,{
                 headers : {
                     'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
                 }
@@ -69,8 +69,6 @@ export default function User() {
             const postData = await response.json();
             setPost(postData)
         }
-
-
 
         getUser()
         getPostFromUser()
@@ -163,7 +161,7 @@ export default function User() {
                             {/*  ส่วนโปรไฟล์, ชื่อ และวันที่โพสต์ */}
                             <div className="relative flex items-center space-x-3 mb-3">
                                 {/* รูปโปรไฟล์ */}
-                                <img src={base64Pic+user.profilePicture} alt="Profile" className="w-12 h-12 rounded-full" />
+                                <img src={base64Pic+(user.profilePicture)} alt="Profile" className="w-12 h-12 rounded-full" />
 
                                 {/* ชื่อและวันที่ */}
                                 <div className="flex-1 min-w-0">
