@@ -10,7 +10,6 @@ import { useActionState, useEffect, useState } from "react";
 export default  function Posts(){
 
     const [posts, setPosts] = useState([])
-    // const [likes, formData] = useActionState(countLikes,null)
     const base64Pic = "data:image/png;base64,"
 
     const handleCount = (prevCount,postId) => async (event) => {
@@ -21,13 +20,14 @@ export default  function Posts(){
         formAction(formData);
     };
 
-    function fecthLike() {
-        
-    }
 
     useEffect(() => {
         async function getPosts() {
-            console.log(sessionStorage.getItem("userToken"));
+            const token = sessionStorage.getItem("userToken");
+            if (!token) {
+                console.error("User token is missing. Cannot fetch data.");
+                return;
+            }
     
             try {
                 const response = await fetch("https://threadhive.onrender.com/posts");

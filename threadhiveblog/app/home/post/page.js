@@ -17,7 +17,7 @@ export default function CreatePost() {
         async function getUser() {
             const user = await fetch(`https://threadhive.onrender.com/users/${userId}`, {
                 headers: token
-                ? { Authorization: `Bearer ${token}` }  // ✅ Include header only if token exists
+                ? { Authorization: `Bearer ${token}` }
                 : {},
             })
             const data = await user.json();

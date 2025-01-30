@@ -12,6 +12,7 @@ function logout() {
     if (sessionStorage.getItem('userToken')) {
         sessionStorage.removeItem('userId')
         sessionStorage.removeItem('userToken')
+        cookies().delete("token");
         redirect('/home')
     }
     
