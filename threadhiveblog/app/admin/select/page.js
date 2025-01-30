@@ -96,7 +96,7 @@ export default function SelectUser() {
                                                 if (result.isConfirmed) {
                                                     Swal.fire({
                                                         title: "ลบโพสต์สำเร็จ!",
-                                                        text: "โพสต์ของคุณถูกลบเรียบร้อยแล้ว",
+                                                        text: "โพสต์ถูกลบเรียบร้อยแล้ว",
                                                         icon: "success",
                                                         confirmButtonColor: "#3085d6",
                                                         confirmButtonText: "ตกลง",
@@ -107,20 +107,23 @@ export default function SelectUser() {
                                         >ลบ</Link>
                                     </div>
                                 </div>
+
+                                <h3 className="font-bold text-lg dark:text-white">หัวข้อโพสต์</h3>
+                                <p className="text-black dark:text-yellow-900 bg-[#fffffb] dark:bg-[#fff8cf] shadow-lg rounded-lg p-1 inline-block">#ตัวอย่างข้อความ</p>
                                 <p className="mb-4 dark:text-white">ไม่มีความคิดใหม่เล็กเกินไป ถ้ามันทำให้คุณก้าวไปข้างหน้า</p>
 
                                 <div className="mt-4 flex items-center justify-between">
                                     {/* ปุ่ม like comment shares*/}
                                     <div className="flex items-center space-x-5 mt-4 text-gray-600 dark:text-black">
-                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-1 pr-3 rounded-2xl shadow-lg flex-nowrap">
+                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-1 pr-3 rounded-2xl shadow-lg flex-nowrap">
                                             <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-1" />
                                             <span className="text-xs sm:text-sm whitespace-nowrap"></span>{post.likes ?? 0}ถูกใจ
                                         </button>
-                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-1 pr-5 rounded-2xl shadow-lg flex-nowrap">
+                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-1 pr-5 rounded-2xl shadow-lg flex-nowrap">
                                             <img src="/assets/comment.png" alt="comment" className="w-5 h-5 sm:w-6 sm:h-6" />
                                             <span className="text-xs sm:text-sm whitespace-nowrap">{post.comments ?? 0} ความคิดเห็น</span>
                                         </button>
-                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-1 pr-3 rounded-2xl shadow-lg flex-nowrap">
+                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-1 pr-3 rounded-2xl shadow-lg flex-nowrap">
                                             <img src="/assets/share.png" alt="Home" className="w-6 h-6 mr-1" />
                                             <span className="text-xs sm:text-sm whitespace-nowrap"></span>{post.shares ?? 0}แชร์
                                         </button>

@@ -58,31 +58,28 @@ export default async function AdminDashboard() {
                 {/* ตารางแสดงผู้ใช้ */}
                 <div className="col-start-4 col-span-3 ml-10 mr-10">
                     <div className="p-6">
-                        <h2 className="text-xl font-semibold mb-4 dark:text-white">รายชื่อผู้ใช้</h2>
-                        <table className="w-full border-collapse">
-                        <thead>
-                            <tr>
-                            <th className="p-2 dark:text-white">โปรไฟล์</th>
-                            <th className="p-2 dark:text-white">ชื่อ</th>
-                            <th className="p-2 dark:text-white">โพสต์ทั้งหมด</th>
-                            <th className="p-2 dark:text-white">ตัวเลือก</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                        <h2 className="text-lg mb-4 dark:text-white">รายชื่อผู้ใช้</h2>
+                        <div className="w-full">
+                            <div className="flex justify-between items-center p-2">
+                                <span className="dark:text-white w-1/4 text-center">โปรไฟล์</span>
+                                <span className="dark:text-white w-1/4 text-center">ชื่อ</span>
+                                <span className="dark:text-white w-1/4 text-center">โพสต์ทั้งหมด</span>
+                                <span className="dark:text-white w-1/4 text-center">ตัวเลือก</span>
+                            </div>
+
                             {posts.map((user) => (
-                            <tr key={user.id} className="text-center bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-2xl shadow-md mb-4"> 
-                                <td className="p-2">
-                                    <img src={user.userProfile} alt="avatar" className="w-10 h-10 rounded-full mx-auto" />
-                                </td>
-                                <td className="p-2">{user.username}</td>
-                                <td className="p-2">25</td>
-                                <td className="p-2">
-                                <button className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg px-4 py-1 rounded-2xl">เลือก</button>
-                                </td>
-                            </tr>
+                                <div key={user.id} className="flex justify-between items-center bg-[#FFF8DC] dark:bg-[#5b4e4a] shadow-md my-4 rounded-2xl p-3">
+                                    <div className="w-1/4 text-center">
+                                        <img src={user.userProfile} alt="avatar" className="w-10 h-10 rounded-full mx-auto" />
+                                    </div>
+                                    <div className="w-1/4 text-center dark:text-white">{user.username}</div>
+                                    <div className="w-1/4 text-center dark:text-white">25</div>
+                                    <div className="w-1/4 text-center">
+                                        <Link href="/admin/select" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg px-4 py-1 rounded-2xl">เลือก</Link>
+                                    </div>
+                                </div>
                             ))}
-                        </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -216,7 +216,12 @@ export default function User() {
                         <Link href={`/home/user/${post.id}`}>
                             <div className="mb-5">
                                 <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
+<<<<<<< Updated upstream
                                 <p className="text-gray-700 dark:text-white">{post.details}</p>
+=======
+                                <p className="text-black dark:text-yellow-900 bg-[#fffffb] dark:bg-[#fff8cf] shadow-lg rounded-lg p-1 inline-block">#ตัวอย่างข้อความ</p>
+                                <p className="text-gray-700 dark:text-white">{post.description}</p>
+>>>>>>> Stashed changes
                             </div>
                         </Link>
 
@@ -230,17 +235,17 @@ export default function User() {
                         {/* ปุ่ม Like, Comment, Share */}
                         <div className="mt-4 flex items-center justify-between">
                             <div className="flex items-center space-x-5 mt-4 text-gray-600 dark:text-black">
-                                <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                                <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                     <span className="text-xl">
                                         <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-2" />
                                     </span>{post.likes ?? 0}ถูกใจ
                                 </button>
-                                <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                                <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                     <span className="text-xl">
                                         <img src="/assets/comment.png" alt="Home" className="w-6 h-6 mr-2" />
                                     </span>{post.comments ?? 0}ความคิดเห็น
                                 </button>
-                                <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                                <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                     <span className="text-xl">
                                         <img src="/assets/share.png" alt="Home" className="w-6 h-6 mr-2" />
                                     </span>{post.shares ?? 0}แชร์

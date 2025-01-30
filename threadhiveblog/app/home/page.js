@@ -52,7 +52,7 @@ export default  function Posts(){
 
                                     {/*  ส่วนโปรไฟล์, ชื่อ และวันที่โพสต์ */}
                                     <div className="flex items-center space-x-3 mb-3">
-                                        <img src={post.userProfile} alt="Profile" className="w-12 h-12 rounded-full border" />
+                                        <img src={post.userProfile} alt="Profile" className="w-12 h-12 rounded-full" />
                                         <div>
                                             <p className="font-semibold dark:text-white">{post.username}</p>
                                             <p className="text-gray-500 text-sm dark:text-white">
@@ -69,7 +69,12 @@ export default  function Posts(){
                                     <Link href={`/home/post/${post.id}`}>
                                         <div className="mb-5">
                                             <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
+<<<<<<< Updated upstream
                                             <p className="text-gray-700 dark:text-white">{post.details}</p>
+=======
+                                            <p className="text-black dark:text-yellow-900 bg-[#fffffb] dark:bg-[#fff8cf] shadow-lg rounded-lg p-1 inline-block">#ตัวอย่างข้อความ</p>
+                                            <p className="text-gray-700 dark:text-white">{post.description}</p>
+>>>>>>> Stashed changes
                                         </div>
                                     </Link>
 
@@ -82,17 +87,17 @@ export default  function Posts(){
 
                                     {/* ปุ่ม Like, Comment, Share */}
                                     <div className="flex items-center space-x-5 mt-4 text-gray-600 dark:text-black">
-                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                             <span className="text-xl">
                                                 <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-2" />
                                             </span> <span>{post.likes ?? 0}</span>ถูกใจ
                                         </button>
-                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                             <span className="text-xl">
                                                 <img src="/assets/comment.png" alt="Home" className="w-6 h-6 mr-2" />
                                             </span> <span>{post.comments ?? 0}</span>ความคิดเห็น
                                         </button>
-                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                             <span className="text-xl">
                                             <img src="/assets/share.png" alt="Home" className="w-6 h-6 mr-2" />    
                                             </span> <span>{post.shares ?? 0}</span>แชร์

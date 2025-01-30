@@ -92,8 +92,13 @@ export default function Post({ params }) {
 
                 {/* ส่วนข้อความ */}
                 <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
+<<<<<<< Updated upstream
                 <p className="text-gray-700 mb-5 dark:text-white">{post.details}</p>
 
+=======
+                <p className="text-black dark:text-yellow-900 bg-[#fffffb] dark:bg-[#fff8cf] shadow-lg rounded-lg p-1 inline-block">#ตัวอย่างข้อความ</p>
+                <p className="text-gray-700 mb-5 dark:text-white">{post.description}</p>
+>>>>>>> Stashed changes
 
                 {/* ส่วนรูปภาพ (แสดงเมื่อมีรูป) */}
                 {post.image && (
@@ -104,15 +109,15 @@ export default function Post({ params }) {
 
                 {/* ปุ่ม Like, Comment, Share */}
                 <div className="flex items-center space-x-5 mt-4 text-gray-600 dark:text-black">
-                    <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                    <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                       <img src="/assets/like.png" alt="Like" className="w-6 h-6 mr-2" />
                       <span>{post.likes ?? 0}</span> ถูกใจ
                     </button>
-                    <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                    <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                       <img src="/assets/comment.png" alt="Comment" className="w-6 h-6 mr-2" />
                       <span>{post.comments ?? 0}</span> ความคิดเห็น
                     </button>
-                    <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                    <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                       <img src="/assets/share.png" alt="Share" className="w-6 h-6 mr-2" />
                       <span>{post.shares ?? 0}</span> แชร์
                     </button>
@@ -155,15 +160,15 @@ export default function Post({ params }) {
 
                   {/* ปุ่ม Like, Comment, Share */}
                   <div className="flex items-center space-x-5 mt-4 text-gray-600 dark:text-black">
-                    <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                    <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                       <img src="/assets/like.png" alt="Like" className="w-6 h-6 mr-2" />
                       <span>{post.likes ?? 0}</span> ถูกใจ
                     </button>
-                    <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                    <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                       <img src="/assets/comment.png" alt="Comment" className="w-6 h-6 mr-2" />
                       <span>{post.comments ?? 0}</span> ความคิดเห็น
                     </button>
-                    <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                    <button className="flex items-center space-x-1 bg-white dark:bg-[#fff8cf] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                       <img src="/assets/share.png" alt="Share" className="w-6 h-6 mr-2" />
                       <span>{post.shares ?? 0}</span> แชร์
                     </button>

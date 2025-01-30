@@ -9,17 +9,22 @@ export default function SideBar() {
                 <div className="grid grid-rows-3 p-4">
                     <div>
                         <Link href={`/home`} className="flex items-center p-3 m-3 hover:bg-white dark:hover:bg-[#4a3d22] dark:text-white hover:shadow-lg border-0 rounded-md">
-                            <img src="/assets/home.png" alt="Home" className="w-auto h-8 mr-2" />หน้าแรก
+                            <img src="/assets/home.png" alt="Home" className="w-auto h-8 mr-2 dark:hidden" />
+                            <img src="/assets/home3.png" className="w-auto h-8 mr-2 hidden dark:block" />
+                            หน้าแรก
                         </Link>
                     </div>
                     <div>
                         <Link href={`/user`} className="flex items-center p-3 m-3 hover:bg-white dark:hover:bg-[#4a3d22] dark:text-white hover:shadow-lg border-0 rounded-md">
-                            <img src="/assets/profile.png" alt="Profile" className="w-auto h-8 mr-2" />โพสต์ของฉัน
+                            <img src="/assets/profile.png" alt="Profile" className="w-auto h-10 mr-2" />
+                            โพสต์ของฉัน
                         </Link>
                     </div>
                     <div>
                         <Link href={`/home/post`} className="flex items-center p-3 m-3 hover:bg-white dark:hover:bg-[#4a3d22] dark:text-white hover:shadow-lg border-0 rounded-md">
-                            <img src="/assets/newPost.png" alt="New Post" className="w-8 h-8 mr-2" />เขียนโพสต์
+                            <img src="/assets/newPost.png" alt="New Post" className="w-8 h-8 mr-2 dark:hidden" />
+                            <img src="/assets/newPost2.png" className="w-auto h-8 mr-2 hidden dark:block" />
+                            เขียนโพสต์
                         </Link>
                     </div>
 

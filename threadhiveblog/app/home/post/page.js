@@ -21,10 +21,15 @@ export default function CreatePost() {
                 <form action={formAction} className="bg-[#FEF7D8] dark:bg-[#5b4e4a] p-8 rounded-2xl shadow-lg w-full mt-5">
                     {/* ส่วนหัวของโปรไฟล์ */}
                     <div className="flex items-center space-x-3 mb-4">
-                        <img src="/assets/profile.png" alt="Profile" className="w-10 h-10 rounded-full" />
+                        <img src="/assets/profile.png" alt="Profile" className="w-14 h-14 rounded-full" />
                         <div>
                             <p className="dark:text-white">name_ee</p>
                         </div>
+                    </div>
+
+                    {/* กรอกแท็ก */}
+                    <div className="mb-2">
+                        <textarea name="title" placeholder="เพิ่มแท็ก" className="w-full p-3 border rounded-lg bg-white dark:bg-[#FEF7D8]" rows={1}></textarea>
                     </div>
 
                     {/* กรอกหัวข้อ */}

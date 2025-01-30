@@ -26,6 +26,7 @@ export default function EditPost() {
 
                         {/* ข้อความ */}
                         <div>
+                            <textarea name="title" placeholder="เพิ่มแท็ก" className="w-full mt-5 p-3 border rounded-lg bg-white dark:bg-[#FEF7D8]" rows={1}></textarea>
                             <textarea placeholder="หัวข้อโพสต์" className="w-full p-3 mt-5 border rounded-lg bg-white dark:bg-[#FEF7D8]" rows={1}></textarea>
                             <textarea placeholder="ข้อความ" className="w-full p-3 mt-5 border rounded-md bg-white dark:bg-[#FEF7D8]" rows={4}></textarea>
                         </div>
@@ -47,7 +48,7 @@ export default function EditPost() {
                                 onClick={() => {
                                     Swal.fire({
                                         title: "แกไขข้อมูลสำเร็จ!",
-                                        text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
+                                        text: "ข้อมูลถูกบันทึกเรียบร้อยแล้ว",
                                         icon: "success",
                                         confirmButtonColor: "#3085d6",
                                         confirmButtonText: "ตกลง",

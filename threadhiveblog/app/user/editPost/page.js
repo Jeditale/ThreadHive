@@ -65,6 +65,7 @@ export default function EditPost() {
 
                         {/* ข้อความ */}
                         <div>
+                            <textarea name="title" placeholder="เพิ่มแท็ก" className="w-full p-3 border rounded-lg bg-white dark:bg-[#FEF7D8]" rows={1}></textarea>
                             <textarea placeholder="หัวข้อโพสต์" className="w-full p-3 mt-5 border rounded-lg bg-white dark:bg-[#FEF7D8]" rows={1}></textarea>
                             <textarea placeholder="ข้อความ" className="w-full p-3 mt-5 border rounded-md bg-white dark:bg-[#FEF7D8]" rows={4}></textarea>
                         </div>
