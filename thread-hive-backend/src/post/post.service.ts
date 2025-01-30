@@ -53,6 +53,7 @@ export class PostService {
   // Get all posts
   async findAll() {
     try {
+      await this.prisma.$connect();
       return await this.prisma.post.findMany();
     } catch (error) {
       throw new InternalServerErrorException('Failed to fetch posts', error);
