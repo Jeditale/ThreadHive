@@ -5,12 +5,12 @@ import SideBar from "../components/Sidebar"
 import Link from "next/link"
 import ThemeToggle from "../components/ThemeToggle"
 import { useActionState, useEffect, useState } from "react";
-import { countLikes } from "./action"
+// import { countLikes } from "./action"
 
 export default  function Posts(){
 
     const [posts, setPosts] = useState([])
-    const [likes, formData] = useActionState(countLikes,null)
+    // const [likes, formData] = useActionState(countLikes,null)
     const base64Pic = "data:image/png;base64,"
 
     const handleCount = (prevCount,postId) => async (event) => {
@@ -27,36 +27,59 @@ export default  function Posts(){
 
     useEffect(() => {
         async function getPosts() {
-            console.log(sessionStorage.getItem("userToken"))
-            const response = await fetch('https://threadhive.onrender.com/posts')
-            if(!response.ok){
-              throw new Error('cannot fetch')
-          
+            console.log(sessionStorage.getItem("userToken"));
+    
+            try {
+                const response = await fetch("https://threadhive.onrender.com/posts");
+                if (!response.ok) {
+                    throw new Error("Cannot fetch posts");
+                }
+                const data = await response.json();
+
+                const addData = await Promise.all(
+                    data.map(async (post) => {
+                        try {
+                            console.log(`Fetching data for userId: ${post.userId}`);
+                            const [likeRes, userRes] = await Promise.all([
+                                fetch(`https://threadhive.onrender.com/post-likes/count/${post.id}`),
+                                fetch(`https://threadhive.onrender.com/users/${post.userId}`)
+                            ]);
+    
+                            const likeCount = likeRes.ok ? await likeRes.json() : { upvoteCount: 0 };
+                            const userShow = userRes.ok ? await userRes.json() : {
+                                profilePicture: "/assets/profile.png",
+                                usrname: "Unknown user"
+                            };
+    
+                            return {
+                                ...post,
+                                likeCount: likeCount.upvoteCount ?? 0,
+                                username: userShow.usrname ?? "Unknown user",
+                                profilePicture: userShow.profilePicture ?? "/assets/profile.png"
+                            };
+    
+                        } catch (error) {
+                            console.error("Error fetching like/user data:", error);
+                            return {
+                                ...post,
+                                likeCount: 0,
+                                username: "Unknown user",
+                                profilePicture: "/assets/profile.png"
+                            };
+                        }
+                    })
+                );
+    
+                setPosts(addData);
+    
+            } catch (error) {
+                console.error("Error fetching posts:", error);
             }
-            const data = await response.json();
-
-            const addData = await Promise.all(
-                data.map(async (post) => {
-                    const likeRes = await fetch(`https://threadhive.onrender.com/post-likes/count/${post.id}`)
-                    // const commentRes = await fetch(``)
-                    if(!likeRes.ok){
-                        return {upvoteCount: 0}
-                    }
-                    
-                    const likeCount = await likeRes.json()
-                    return {
-                        ...post,
-                        likeCount: likeCount.upvoteCount
-                    }
-                })
-            )
-            
-            setPosts(addData)
-        } 
-
-        getPosts()
-        
-    },[])
+        }
+    
+        getPosts();
+    }, []);
+    
 
     return (
         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A]">
@@ -72,7 +95,7 @@ export default  function Posts(){
 
                                     {/*  ส่วนโปรไฟล์, ชื่อ และวันที่โพสต์ */}
                                     <div className="flex items-center space-x-3 mb-3">
-                                        <img src={post.userProfile} alt="Profile" className="w-12 h-12 rounded-full border" />
+                                        <img src={post.profilePicture ?? "/assets/profile.png" } alt="Profile" className="w-12 h-12 rounded-full border" />
                                         <div>
                                             <p className="font-semibold dark:text-white">{post.username}</p>
                                             <p className="text-gray-500 text-sm dark:text-white">

@@ -2,10 +2,11 @@
 
 import NavBar from "../components/Navbar";
 import SideBar from "../components/Sidebar";
-import { useState, useEffect } from "react"
+import { useState, useEffect, useActionState } from "react"
 import Link from 'next/link';
 import Swal from "sweetalert2";
 import { redirect } from "next/navigation";
+import { fetch } from "./action";
 
 function logout() {
     if (sessionStorage.getItem('userToken')) {
@@ -33,6 +34,7 @@ async function deletePost(id) {
 export default function User() {
     const [posts, setPost] = useState([]); 
     const [user, setUser] = useState([])
+    // const [post, FormAction] = useActionState(fetch,null)
     // const [loading, setLoading] = useState(true); 
     // const [error, setError] = useState(null); 
 
@@ -66,6 +68,8 @@ export default function User() {
             const postData = await response.json();
             setPost(postData)
         }
+
+
 
         getUser()
         getPostFromUser()

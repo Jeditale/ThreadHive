@@ -16,6 +16,7 @@ export default function EditForm() {
         async function getUser() {
             const userId = sessionStorage.getItem("userId")
             const response = await fetch(`https://threadhive.onrender.com/users/${userId}`,{
+                method : "POST",
                 headers : {
                     'Authorization': `Bearer ${sessionStorage.getItem('userToken')}`
                 }
