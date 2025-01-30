@@ -12,6 +12,11 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization', // Ensure the Authorization header is allowed
 });
+app.useGlobalFilters(new (class {
+  catch(exception, host) {
+    console.error('Unhandled Error:', exception);
+  }
+})());
   const config = new DocumentBuilder()
     .setTitle('ThreadHive')
     .setDescription('The ThreadHive API')
