@@ -35,7 +35,7 @@ export async function create(prevState, formData) {
     };
 
     try {
-        const response = axios.request(config);
+        const response = await axios.request(config);
         console.log(JSON.stringify(response.data));
         return { success: true, data: response.data };
         
