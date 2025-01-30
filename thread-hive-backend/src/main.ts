@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*', // Use stars
     credentials: true, // Allow cookies/auth headers
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization', // Ensure the Authorization header is allowed
 });
 app.useGlobalFilters(new (class {
