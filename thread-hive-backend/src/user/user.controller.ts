@@ -9,8 +9,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 
-@ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -26,16 +24,22 @@ export class UserController {
   }
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   getUserById(@Param('id') id: string) {
     return this.userService.getUserById(Number(id));
   }
 
   @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateUser(Number(id), updateUserDto);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   deleteUser(@Param('id') id: string) {
     return this.userService.deleteUser(Number(id));
   }
