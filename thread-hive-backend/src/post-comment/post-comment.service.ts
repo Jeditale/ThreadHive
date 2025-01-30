@@ -97,6 +97,21 @@ export class PostCommentService {
     }
   }
 
+    // Get count of comments by postId
+    async countCommentsByPostId(postId: number) {
+      try {
+        const count = await this.prisma.postComment.count({
+          where: {
+            postId: postId,
+          },
+        });
+  
+        return { count };  // Return count of comments for the post
+      } catch (error) {
+        throw new InternalServerErrorException('Failed to count comments for the post', error);
+      }
+    }
+
   // Delete a Post Comment by id
   async delete(id: number) {
     try {

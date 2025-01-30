@@ -46,6 +46,13 @@ export class PostCommentController {
     const postComments = await this.postCommentService.getAllCommentsByPostId(+postId);
     return { postComments };  // Return all post comment records
   }
+    // Get count of comments for a specific post
+    @Get('count/:postId')
+    async countComments(@Param('postId') postId: number) {
+      const count = await this.postCommentService.countCommentsByPostId(postId);
+      return { count };  // Return the count of comments for the specified post
+    }
+  
 
   // Delete a Post Comment by id
   @Delete(':id')
