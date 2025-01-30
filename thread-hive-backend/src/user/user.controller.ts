@@ -24,8 +24,6 @@ export class UserController {
   }
 
   @Get(':id')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
   getUserById(@Param('id') id: string) {
     return this.userService.getUserById(Number(id));
   }
