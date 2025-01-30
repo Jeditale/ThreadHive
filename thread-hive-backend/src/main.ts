@@ -6,7 +6,12 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule , { cors: true });
-  app.enableCors();
+  app.enableCors({
+    origin: ['https://threadhive.onrender.com', 'https://localhost:3000'], // Allow frontend URL
+    credentials: true, // Allow cookies/auth headers
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization', // Ensure the Authorization header is allowed
+});
   const config = new DocumentBuilder()
     .setTitle('ThreadHive')
     .setDescription('The ThreadHive API')
