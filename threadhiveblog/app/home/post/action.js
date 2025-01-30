@@ -27,6 +27,7 @@ export async function create(prevState, formData) {
         maxBodyLength: Infinity,
         url: 'https://threadhive.onrender.com/posts',
         headers: { 
+            'mode':'cors',
             'Content-Type': 'application/json', 
             'Authorization': `Bearer ${userToken}`
         },

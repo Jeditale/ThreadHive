@@ -1,6 +1,7 @@
 "use server"
 
 import axios from "axios"
+import { cookies } from "next/headers"
 
 
 export async function login(prevState, formData) {
@@ -25,8 +26,8 @@ export async function login(prevState, formData) {
 
     const response = await axios.request(config);
     console.log(JSON.stringify(response.data));
-
     const user = response.data
+    cookies().set("token", user.token)
 
     return user;
 
