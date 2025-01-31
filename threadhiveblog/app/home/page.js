@@ -15,11 +15,7 @@ export default  function Posts(){
     useEffect(() => {
         async function getPosts() {
             const token = sessionStorage.getItem("userToken");
-            if (!token) {
-                console.error("User token is missing. Cannot fetch data.");
-                return;
-            }
-    
+        
             try {
                 const response = await fetch("http://localhost:3000/posts", { method: "GET" });
                 if (!response.ok) {

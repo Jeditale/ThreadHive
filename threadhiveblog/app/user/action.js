@@ -1,27 +1,11 @@
-"use server"
+"use server";
 
-export async function fetch(prevState) {
-    const axios = require('axios');
-    let data = ''
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-    let config = {
-    method: 'get',
-    maxBodyLength: Infinity,
-    url: 'http://localhost:3000/posts',
-    headers: { 
-        'Content-Type': 'application/json'
-    },
-    data : data
-    };
+export async function logoutAction() {
 
-    axios.request(config)
-    .then((response) => {
-        console.log(JSON.stringify(response.data));
-        const results = JSON.stringify(response.data)
-        return results
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+  cookies().delete("token");
 
+  redirect("/home");
 }

@@ -3,7 +3,7 @@
 import NavBar from "@/app/components/Navbar";
 import SideBar from "@/app/components/Sidebar";
 import Link from 'next/link';
-import { useState,useEffect,useActionState } from "react";
+import { useState,useEffect,useActionState,startTransition } from "react";
 import Swal from "sweetalert2";
 import { editProfile } from "./action";
 
@@ -66,7 +66,7 @@ export default function EditForm() {
             <SideBar/>
             <div className="grid grid-cols-6 mt-5">
                 <div className="col-start-3 col-span-3">
-                    <form className="bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-lg shadow-lg w-full max-w-4xl mb-6 p-24 pt-10 pb-10" onSubmit={handleSubmit}>
+                    <form action={formAction} className="bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-lg shadow-lg w-full max-w-4xl mb-6 p-24 pt-10 pb-10" onSubmit={handleSubmit}>
                         <div className="flex flex-col items-center">
                             <img src={(base64Pic+user.profilePicture) ?? "/assets/profile.png"} className="w-36 h-36 rounded-full" />
                             <button className="bg-[#FAF3B8] dark:bg-[#FEF7D8] hover:bg-[#EAC67A] dark:hover:bg-[#ddd09a] rounded-2xl shadow-lg p-2 mt-5 mb-7">แก้ไขรูปโปรไฟล์</button>

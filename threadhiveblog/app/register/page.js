@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { register } from "./action"
 import Swal from "sweetalert2"
-import { useActionState, useState, useEffect } from "react"
+import { useActionState, useState, useEffect,startTransition } from "react"
 
 export default function RegisterPage() {
 
@@ -11,6 +11,7 @@ export default function RegisterPage() {
 
     const [pass, setPass] = useState('')
     const [conPass, setConPass] = useState('')
+    // const [defaultpic, setPic] = useState("")
 
     const [formData, setFormData] = useState({
         username: '',
@@ -54,7 +55,21 @@ export default function RegisterPage() {
         
     }
 
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     const formData = new FormData(event.target);
+    //     formData.append("defaultPicture", defaultpic)
+        
+    //     startTransition(() => {
+    //         formAction(formData);
+    //     });
+    // };
+
     useEffect(() => {
+        // fetch("/assets/mycatjyn.json")
+        // .then((res) => res.json())
+        // .then((data) => setPic(data.image));
+        
         initRegister()
     },[state])
 
@@ -135,7 +150,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="flex justify-center">
-                    <button className="w-auto bg-[#3A3000] text-white text-xl p-10 pt-2 pb-2 rounded-2xl hover:bg-black transition duration-300 mb-10 mt-10 " onClick={() => {
+                    <button type="submit" className="w-auto bg-[#3A3000] text-white text-xl p-10 pt-2 pb-2 rounded-2xl hover:bg-black transition duration-300 mb-10 mt-10 " onClick={() => {
                             Swal.fire({
                                 title: "สร้างบัญชีผู้ใช้สำเร็จสำเร็จ!",
                                 text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
@@ -148,6 +163,7 @@ export default function RegisterPage() {
                                 }
                             });
                             checkPass
+                            // handleSubmit
                         }}
                           >บันทีก</button>
                 </div>

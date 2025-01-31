@@ -6,12 +6,13 @@ import { useState, useEffect, useActionState } from "react"
 import Link from 'next/link';
 import Swal from "sweetalert2";
 import { redirect } from "next/navigation";
+import { logoutAction } from "./action";
 
-function logout() {
+async function logout() {
     if (sessionStorage.getItem('userToken')) {
         sessionStorage.removeItem('userId')
         sessionStorage.removeItem('userToken')
-        cookies().delete("token");
+        await logoutAction()
         redirect('/home')
     }
     
@@ -176,7 +177,7 @@ export default function User() {
 
                                 {/* ปุ่มแก้ไขและลบ */}
                                 <div className="absolute top-0 right-0 flex space-x-2">
-                                    <Link href="/user/editPost" className="bg-[#3A3000] text-white hover:bg-[#2A1C08] shadow-lg px-4 py-1 rounded-2xl">
+                                    <Link href={"/user/editPost/"+post.id} className="bg-[#3A3000] text-white hover:bg-[#2A1C08] shadow-lg px-4 py-1 rounded-2xl">
                                         แก้ไข
                                     </Link>
                                     <button
@@ -215,7 +216,7 @@ export default function User() {
                                 </div>
                             </div>
                             {/* ส่วนข้อความ */}
-                            <Link href={`/home/user/${sessionStorage.getItem("userId")}`}>
+                            <Link href={`/home/post/${post.id}`}>
                                 <div className="mb-5">
                                     <h3 className="font-bold text-lg dark:text-white">{post.title}</h3>
                                     <p className="text-gray-700 dark:text-white">{post.details}</p>
