@@ -6,7 +6,6 @@ import { useState, useEffect, useActionState } from "react"
 import Link from 'next/link';
 import Swal from "sweetalert2";
 import { redirect } from "next/navigation";
-import { fetch } from "./action";
 
 function logout() {
     if (sessionStorage.getItem('userToken')) {
@@ -251,7 +250,7 @@ export default function User() {
                                 </div>
                             </div>
                             </div>
-                        ))}
+                        ))??(<div>"ไม่มีประวัติการโพสต์"</div>)}
                     </div>
                     
                 </div>

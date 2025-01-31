@@ -6,7 +6,7 @@ export async function create(prevState, formData) {
     const title = formData.get('title')
     const details = formData.get('details')
     const imageUrl = formData.get('imageUrl')
-    const userId = formData.get('userId')
+    const userId = parseInt(formData.get('userId'), 10); 
     const userToken = formData.get('userToken')
 
     console.log(formData)
@@ -43,5 +43,6 @@ export async function create(prevState, formData) {
         console.log(error);  
     }
     
+    redirect('/home')
 
 }
