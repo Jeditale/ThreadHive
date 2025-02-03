@@ -15,7 +15,7 @@ export async function register(prevState, formData) {
     const fname = formData.get('fname')
     const lname = formData.get('lname')
     const username = formData.get('username')
-    const profile_image = formData.get('defaultPicture')
+    // const profile_image = formData.get('profilePicture')
     const gender = formData.get('gender')
     const confirmPassword = formData.get('confirmPassword')
     // const createDate
@@ -43,7 +43,7 @@ export async function register(prevState, formData) {
         "password": confirmPassword,
         "bdate": combineDate(),
         "sex": gender,
-        "profilePicture" : profile_image
+        // "profilePicture" : profile_image
     });
 
     let config = {

@@ -34,7 +34,7 @@ export default  function Posts(){
     
                             const likeCount = likeRes.ok ? await likeRes.json() : { upvoteCount: 0 };
                             const userShow = userRes.ok ? await userRes.json() : {
-                                profilePicture: "/assets/profile.png",
+                                profilePicture: '',
                                 usrname: "Unknown user"
                             };
     
@@ -42,7 +42,7 @@ export default  function Posts(){
                                 ...post,
                                 likeCount: likeCount.upvoteCount ?? 0,
                                 username: userShow.usrname ?? "Unknown user",
-                                profilePicture: userShow.profilePicture ?? "/assets/profile.png"
+                                profilePicture: userShow.profilePicture ?? ''
                             };
     
                         } catch (error) {
@@ -51,7 +51,7 @@ export default  function Posts(){
                                 ...post,
                                 likeCount: 0,
                                 username: "Unknown user",
-                                profilePicture: "/assets/profile.png"
+                                profilePicture: ''
                             };
                         }
                     })
@@ -81,7 +81,7 @@ export default  function Posts(){
 
                                     {/*  ส่วนโปรไฟล์, ชื่อ และวันที่โพสต์ */}
                                     <div className="flex items-center space-x-3 mb-3">
-                                        <img src={base64Pic+post.profilePicture ?? "/assets/profile.png" } alt="Profile" className="w-12 h-12 rounded-full border" />
+                                        <img src={post.profilePicture ? base64Pic + post.profilePicture : "/assets/jyn.png"} alt="Profile" className="w-12 h-12 rounded-full border" />
                                         <div>
                                             <p className="font-semibold dark:text-white">{post.username}</p>
                                             <p className="text-gray-500 text-sm dark:text-white">

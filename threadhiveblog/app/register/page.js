@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { register } from "./action"
 import Swal from "sweetalert2"
-import { useActionState, useState, useEffect,startTransition } from "react"
+import { useActionState, useState, useEffect } from "react"
 
 export default function RegisterPage() {
 
@@ -11,7 +11,6 @@ export default function RegisterPage() {
 
     const [pass, setPass] = useState('')
     const [conPass, setConPass] = useState('')
-    // const [defaultpic, setPic] = useState("")
 
     const [formData, setFormData] = useState({
         username: '',
@@ -37,7 +36,6 @@ export default function RegisterPage() {
             year: '',
             email: '',
             password: '',
-            confirmPassword: '',
         });
         setPass('');
         setConPass('');
@@ -55,22 +53,11 @@ export default function RegisterPage() {
         
     }
 
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(event.target);
-    //     formData.append("defaultPicture", defaultpic)
-        
-    //     startTransition(() => {
-    //         formAction(formData);
-    //     });
-    // };
+
 
     useEffect(() => {
-        // fetch("/assets/mycatjyn.json")
-        // .then((res) => res.json())
-        // .then((data) => setPic(data.image));
+        initRegister();
         
-        initRegister()
     },[state])
 
     

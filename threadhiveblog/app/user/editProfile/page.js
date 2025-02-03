@@ -12,11 +12,19 @@ export default function EditForm() {
     const [user, setUser] = useState([])
     const [bdate, setBdate] = useState({ day: "", month: "", year: "" })
     const [gender, setGender] = useState("")
+    const [username, setUsername] = useState("")
+    const [fname, setFname] = useState("")
+    const [lname, setLname] = useState("")
+    const [email, setEmail] = useState("")
+    const [pass, setPass] = useState("")
+    const [conPass, setConPass] = useState("")
+
     const [state, formAction] = useActionState(editProfile,null)
     const userId = sessionStorage.getItem("userId")
     const token = sessionStorage.getItem("userToken")
 
     const base64Pic = "data:image/png;base64,"
+
 
     useEffect(() => {
         async function getUser() {
@@ -33,6 +41,10 @@ export default function EditForm() {
             transformDate(userData.bdate)
             setUser(userData)
             setGender(userData.sex)
+            setUsername(userData.usrname)
+            setFname(userData.fname)
+            setLname(userData.lname)
+            setEmail(userData.email)
         }
 
         const transformDate = (isoString) => {
@@ -50,15 +62,37 @@ export default function EditForm() {
     }, []);
 
     const handleSubmit = async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            formData.append("userId", userId);
-            formData.append("userToken", token);
+        event.preventDefault();
+
+        if (pass !== conPass || !pass || !conPass) {
+            alert("รหัสผ่านไม่ตรงกัน");
+            return;
+        }
+
+        Swal.fire({
+            title: "บันทึกข้อมูลสำเร็จ!",
+            text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "ตกลง",
+            customClass: {
+                popup: 'rounded-xl shadow-xl', 
+                confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg'
+            }
+        });
+
+        const formData = new FormData(event.target);
+
+        formData.delete("password");
+        formData.delete("confirmPassword");
+
+        formData.append("userId", userId);
+        formData.append("userToken", token);
     
-            startTransition(() => {
-                formAction(formData);
-            });
-        };
+        startTransition(() => {
+            formAction(formData);
+        });
+    };
 
     return (
         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen">
@@ -66,28 +100,28 @@ export default function EditForm() {
             <SideBar/>
             <div className="grid grid-cols-6 mt-5">
                 <div className="col-start-3 col-span-3">
-                    <form action={formAction} className="bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-lg shadow-lg w-full max-w-4xl mb-6 p-24 pt-10 pb-10" onSubmit={handleSubmit}>
+                    <form className="bg-[#FFF8DC] dark:bg-[#5b4e4a] rounded-lg shadow-lg w-full max-w-4xl mb-6 p-24 pt-10 pb-10" onSubmit={handleSubmit}>
                         <div className="flex flex-col items-center">
-                            <img src={(base64Pic+user.profilePicture) ?? "/assets/profile.png"} className="w-36 h-36 rounded-full" />
+                            <img src={user.profilePicture ? base64Pic + user.profilePicture : "/assets/jyn.png"} className="w-36 h-36 rounded-full" />
                             <button className="bg-[#FAF3B8] dark:bg-[#FEF7D8] hover:bg-[#EAC67A] dark:hover:bg-[#ddd09a] rounded-2xl shadow-lg p-2 mt-5 mb-7">แก้ไขรูปโปรไฟล์</button>
                         </div>
 
                         <label className="dark:text-white">ชื่อผู้ใช้</label>
                         <div>
-                            <input type="text" name="username" placeholder="ชื่อผู้ใช้" value={user.usrname}
+                            <input type="text" name="username" placeholder="ชื่อผู้ใช้" value={username} onChange={(e) => setUsername(e.target.value)}
                             className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                         </div>
 
                         <div className="flex space-x-4 items-center justify-center">
                             <div className="flex flex-col flex-grow">
                                 <label className="dark:text-white">ชื่อ</label>
-                                <input type="text" name="fname" placeholder="ชื่อ" value={user.fname}
+                                <input type="text" name="fname" placeholder="ชื่อ" value={fname} onChange={(e) => setFname(e.target.value)}
                                 className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                             </div>
                             
                             <div className="flex flex-col flex-grow">
                                 <label className="dark:text-white">นามสกุล</label>
-                                <input type="text" name="lname" placeholder="นามสกุล" value={user.lname}
+                                <input type="text" name="lname" placeholder="นามสกุล" value={lname} onChange={(e) => setLname(e.target.value)}
                                 className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                             </div>
                         </div>
@@ -127,36 +161,22 @@ export default function EditForm() {
 
                         <label className="dark:text-white">อีเมล</label>
                         <div>
-                            <input type="text" name="email" placeholder="อีเมล" value={user.email}
+                            <input type="text" name="email" placeholder="อีเมล" value={email} onChange={(e) => setEmail(e.target.value)}
                             className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                         </div>
                         <label className="dark:text-white">รหัสผ่าน</label>
                         <div>
-                            <input type="text" name="password" placeholder="รหัสผ่าน"
+                            <input type="password" name="password" placeholder="รหัสผ่าน" value={pass} onChange={(e) => setPass(e.target.value)}
                             className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-3"></input>
                         </div>
                         <label className="dark:text-white">ยืนยันรหัสผ่าน</label>
                         <div>
-                            <input type="text" name="confirmPassword" placeholder="รหัสผ่าน"
+                            <input type="password" name="confirmPassword" placeholder="รหัสผ่าน" value={conPass} onChange={(e) => setConPass(e.target.value)}
                             className="bg-white dark:bg-[#FEF7D8] shadow-lg rounded-2xl w-full p-2 mt-1 mb-10"></input>
                         </div>
 
                         <div className="flex space-x-3 items-center justify-center">
-                            <button type="submit" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2"
-                            onClick={() => {
-                                Swal.fire({
-                                    title: "บันทึกข้อมูลสำเร็จ!",
-                                    text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
-                                    icon: "success",
-                                    confirmButtonColor: "#3085d6",
-                                    confirmButtonText: "ตกลง",
-                                    customClass: {
-                                        popup: 'rounded-xl shadow-xl', 
-                                        confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg'
-                                    }
-                                });
-                            }}
-                            >บันทึก</button>
+                            <button type="submit" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">บันทึก</button>
                             <Link href="/user" className="bg-[#960000] hover:bg-[#690000] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">ยกเลิก</Link>
                         </div>
                     </form>

@@ -1,7 +1,7 @@
 "use server"
 
-import { redirect } from "next/navigation"
 import axios from "axios"
+import { redirect } from "next/navigation"
 
 
 export async function editProfile(prevState, formData) {
@@ -11,13 +11,11 @@ export async function editProfile(prevState, formData) {
     const year = formData.get('year')
 
     const email = formData.get('email')
-    const password = formData.get('password')
     const fname = formData.get('fname')
     const lname = formData.get('lname')
     const username = formData.get('username')
     const profile_image = formData.get('profile_image')
     const gender = formData.get('gender')
-    const confirmPassword = formData.get('confirmPassword')
     const userId = parseInt(formData.get('userId'), 10); 
     const userToken = formData.get('userToken')
     console.log(formData)
@@ -41,7 +39,6 @@ export async function editProfile(prevState, formData) {
         "lname": lname,
         "profilePicture": profile_image,
         "email": email,
-        "password": confirmPassword,
         "bdate": combineDate(),
         "sex": gender,
         "usrname": username
@@ -67,6 +64,6 @@ export async function editProfile(prevState, formData) {
         console.log(error);
     });
 
-
     redirect('/user')
+
 }

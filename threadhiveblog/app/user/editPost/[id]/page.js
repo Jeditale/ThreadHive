@@ -3,7 +3,7 @@
 import NavBar from "@/app/components/Navbar";
 import SideBar from "@/app/components/Sidebar";
 import { useState, useEffect,useActionState,startTransition } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from 'next/link';
 import Swal from "sweetalert2";
 import { editPost } from "./action";
@@ -21,6 +21,7 @@ export default function EditPost() {
     const defaultPic = "/assets/profile.png"
     const params = useParams();
     const postId = params.id;
+    const router = useRouter();
    
     useEffect(() => {
         async function getUser() {
@@ -66,6 +67,20 @@ export default function EditPost() {
            });
        };
 
+       useEffect(() => {
+        if (state?.success) {
+          Swal.fire({
+            title: "แก้ไขข้อมูลสำเร็จ!",
+            text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "ตกลง",
+          }).then(() => {
+            router.push(`/home/post/${postId}`);
+          });
+        }
+      }, [state, router, postId]);
+
     return(
         <div className="bg-[#FAF3B8] dark:bg-[#3A2E2A] min-h-screen">
             <NavBar/>
@@ -103,20 +118,7 @@ export default function EditPost() {
                         </div>
                         {/* ปุ่ม แก้ไข ยกเลิก */}
                         <div className="flex space-x-3 items-center justify-center mt-5">
-                            <button href="/user" type="submit" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2"
-                                onSubmit={() => {
-                                    Swal.fire({
-                                        title: "แก้ไขข้อมูลสำเร็จ!",
-                                        text: "ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว",
-                                        icon: "success",
-                                        confirmButtonColor: "#3085d6",
-                                        confirmButtonText: "ตกลง",
-                                        customClass: {
-                                        popup: 'rounded-xl shadow-xl', 
-                                        confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg'
-                                        }
-                                    });
-                                }}
+                            <button type="submit" className="bg-[#3A3000] hover:bg-[#2A1C08] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2"
                             >แก้ไข</button>
                             <Link href="/user" className="bg-[#960000] hover:bg-[#690000] text-white shadow-lg rounded-2xl p-9 pt-2 pb-2">ยกเลิก</Link>
                         </div>

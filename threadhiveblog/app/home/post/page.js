@@ -4,15 +4,17 @@ import NavBar from "@/app/components/Navbar";
 import SideBar from "@/app/components/Sidebar";
 import { create } from "./action";
 import { useActionState, useEffect, useState,startTransition } from "react";
+import { redirect } from "next/navigation";
 
 export default function CreatePost() {
 
     const [state, formAction] = useActionState(create, null);
     const [user, setUser] = useState([])
     const base64Pic = "data:image/png;base64,"
+    const [imagePreview, setImagePreview] = useState(null);
+    const [imageBase64, setImageBase64] = useState("");
     const userId = sessionStorage.getItem("userId")
     const token = sessionStorage.getItem("userToken")
-    const defaultPic = "/assets/profile.png"
 
     useEffect(() => {
         async function getUser() {
@@ -30,15 +32,32 @@ export default function CreatePost() {
         
     },[])
 
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImageBase64(reader.result.split(",")[1]);
+            setImagePreview(reader.result);
+          };
+          reader.readAsDataURL(file);
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         formData.append("userId", userId);
         formData.append("userToken", token);
+        formData.append("image", imageBase64);
 
         startTransition(() => {
             formAction(formData);
         });
+
+        setTimeout(() => {
+            redirect('/home')
+        }, 1000);
     };
 
     return (
@@ -52,7 +71,7 @@ export default function CreatePost() {
                 <form className="bg-[#FEF7D8] dark:bg-[#5b4e4a] p-8 rounded-2xl shadow-lg w-full mt-5" onSubmit={handleSubmit}>
                     {/* ส่วนหัวของโปรไฟล์ */}
                     <div className="flex items-center space-x-3 mb-4">
-                        <img src={base64Pic+(user.profilePicture) ?? defaultPic} alt="Profile" className="w-10 h-10 rounded-full" />
+                        <img src={user.profilePicture ? base64Pic + user.profilePicture : "/assets/jyn.png"} alt="Profile" className="w-10 h-10 rounded-full" />
                         <div>
                             <p className="dark:text-white">{user.usrname}</p>
                         </div>
@@ -69,15 +88,18 @@ export default function CreatePost() {
                     </div>
 
                     {/* ปุ่มเพิ่มรูปภาพ */}
-                    <div className="flex items-center space-x-2 text-[#D89614] cursor-pointer hover:text-[#B87C0D]">
+                    <label className="flex items-center space-x-2 text-[#D89614] cursor-pointer hover:text-[#B87C0D]">
                         <img src="/assets/addPhoto.png" alt="Upload" className="w-10 h-10" />
                         <span className="font-medium">เพิ่มรูปภาพ</span>
-                    </div>
+                        <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                    </label>
 
                     {/* แสดงรูปภาพ */}
-                    <div>
-                        <img></img>
-                    </div>
+                    {imagePreview && (
+                        <div className="mt-3">
+                            <img src={imagePreview} alt="Preview" className="w-full rounded-lg shadow-md" />
+                        </div>
+                    )}
 
                     {/* ปุ่มโพสต์ */}
                     <div className="mt-6 flex justify-center">
