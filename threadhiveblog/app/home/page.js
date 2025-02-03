@@ -5,6 +5,7 @@ import SideBar from "../components/Sidebar"
 import Link from "next/link"
 import ThemeToggle from "../components/ThemeToggle"
 import { useActionState, useEffect, useState } from "react";
+import { redirect } from "next/navigation"
 // import { countLikes } from "./action"
 
 export default  function Posts(){
@@ -116,7 +117,7 @@ export default  function Posts(){
                                                 <img src="/assets/like.png" alt="Home" className="w-6 h-6 mr-2"/>
                                             </span> <span>{post.likeCount}</span>ถูกใจ
                                         </button>
-                                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                                        <button onClick={() => redirect(`/home/post/${post.id}`)} className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                                             <span className="text-xl">
                                                 <img src="/assets/comment.png" alt="Home" className="w-6 h-6 mr-2" />
                                             </span> <span>{post.comments ?? 0}</span>ความคิดเห็น

@@ -215,7 +215,7 @@ export default function Post() {
                           <img src="/assets/like.png" alt="Like" className="w-6 h-6 mr-2" />
                           <span>{post.likes ?? 0}</span> ถูกใจ
                         </button>
-                        <button className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
+                        <button onClick={() => redirect(`/home/post/${post.id}`)} className="flex items-center space-x-1 bg-white dark:bg-[#cdc5a4] hover:bg-[#EAC67A] dark:hover:bg-[#afa87f] p-2 rounded-2xl shadow-lg">
                           <img src="/assets/comment.png" alt="Comment" className="w-6 h-6 mr-2" />
                           <span>{post.comments ?? 0}</span> ความคิดเห็น
                         </button>
